@@ -15,14 +15,14 @@ class DummyCheck(HealthCheckDSN[HealthCheckResult]):
         return HealthCheckResult(name="dummy", healthy=True)
 
 
-def test_check_pydantinc_installed() -> None:
-    assert DummyCheck.check_pydantinc_installed() is None
+def test_check_pydantic_installed() -> None:
+    assert DummyCheck.check_pydantic_installed() is None
 
     with (
         patch("fast_healthchecks.checks._base.PYDANTIC_INSTALLED", new=False),
         pytest.raises(RuntimeError, match="Pydantic is not installed"),
     ):
-        DummyCheck.check_pydantinc_installed()
+        DummyCheck.check_pydantic_installed()
 
 
 @pytest.mark.parametrize(

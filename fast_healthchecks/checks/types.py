@@ -33,10 +33,6 @@ try:
 except ImportError:
     RabbitMQHealthCheck = Any  # ty: ignore[invalid-assignment]
 try:
-    from fast_healthchecks.checks.rabbitmq import RabbitMQHealthCheck
-except ImportError:
-    RabbitMQHealthCheck = Any  # ty: ignore[invalid-assignment]
-try:
     from fast_healthchecks.checks.redis import RedisHealthCheck
 except ImportError:
     RedisHealthCheck = Any  # ty: ignore[invalid-assignment]

@@ -1142,7 +1142,7 @@ def test_from_dsn(
     exception: type[BaseException] | None,
 ) -> None:
     parse_result: ParseResult = urlparse(args[0])
-    query = {k: unquote(v) for k, v in (q.split("=") for q in parse_result.query.split("&"))}
+    query = {k: unquote(v) for k, v in (q.split("=", 1) for q in parse_result.query.split("&"))}
     files = [y for x, y in query.items() if x in {"sslcert", "sslkey", "sslrootcert"}]
 
     if exception is not None and isinstance(expected, str):

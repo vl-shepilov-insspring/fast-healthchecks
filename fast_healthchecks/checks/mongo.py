@@ -97,7 +97,7 @@ class MongoHealthCheck(HealthCheckDSN[HealthCheckResult]):
 
         Args:
             hosts: The MongoDB host or list of hosts.
-            port: The MongoDB port (используется, если host — строка).
+            port: The MongoDB port (used when hosts is a single string).
             user: The MongoDB user.
             password: The MongoDB password.
             database: The MongoDB database to use.
@@ -126,7 +126,7 @@ class MongoHealthCheck(HealthCheckDSN[HealthCheckResult]):
         """
         parse_result: ParseResult = urlparse(dsn)
         query = (
-            {k: unquote(v) for k, v in (q.split("=") for q in parse_result.query.split("&"))}
+            {k: unquote(v) for k, v in (q.split("=", 1) for q in parse_result.query.split("&"))}
             if parse_result.query
             else {}
         )
@@ -156,7 +156,7 @@ class MongoHealthCheck(HealthCheckDSN[HealthCheckResult]):
         hosts: str | list[str]
         port: int | None
         if "," in parse_result.netloc:
-            hosts = parse_result.netloc.split("@")[1].split(",")
+            hosts = parse_result.netloc.split("@")[-1].split(",")
             port = None
         else:
             hosts = parse_result.hostname or "localhost"

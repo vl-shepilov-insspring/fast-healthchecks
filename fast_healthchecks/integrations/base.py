@@ -11,7 +11,7 @@ from typing import Any, NamedTuple, TypeAlias
 from fast_healthchecks.checks.types import Check
 from fast_healthchecks.models import HealthcheckReport, HealthCheckResult
 
-HandlerType: TypeAlias = Callable[["ProbeAsgiResponse"], Awaitable[dict[str, str]]]
+HandlerType: TypeAlias = Callable[["ProbeAsgiResponse"], Awaitable[dict[str, Any]]]
 
 
 class Probe(NamedTuple):
@@ -48,11 +48,11 @@ class ProbeAsgiResponse(NamedTuple):
     """A response from an ASGI probe.
 
     Args:
-        body: The body of the response.
-        status_code: The status code of the response.
+        data: The response data (healthcheck results).
+        healthy: Whether all healthchecks passed.
     """
 
-    data: dict[str, str]
+    data: dict[str, Any]
     healthy: bool
 
 

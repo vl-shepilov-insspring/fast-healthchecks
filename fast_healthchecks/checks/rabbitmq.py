@@ -59,7 +59,7 @@ class RabbitMQHealthCheck(HealthCheckDSN[HealthCheckResult]):
         _vhost: The RabbitMQ virtual host.
     """
 
-    __slots__ = ("_host", "_name", "_password", "_port", "_secure", "_timeout", "_user")
+    __slots__ = ("_host", "_name", "_password", "_port", "_secure", "_timeout", "_user", "_vhost")
 
     _host: str
     _port: int

@@ -46,7 +46,7 @@ class HealthCheckDSN(HealthCheck[T_co], Generic[T_co]):
         raise NotImplementedError
 
     @classmethod
-    def check_pydantinc_installed(cls) -> None:
+    def check_pydantic_installed(cls) -> None:
         """Check if Pydantic is installed."""
         if not PYDANTIC_INSTALLED:
             msg = "Pydantic is not installed"

@@ -125,7 +125,7 @@ class BasePostgreSQLHealthCheck(HealthCheckDSN[T_co], Generic[T_co]):
         """
         parse_result: ParseResult = urlparse(dsn)
         query = (
-            {k: unquote(v) for k, v in (q.split("=") for q in parse_result.query.split("&"))}
+            {k: unquote(v) for k, v in (q.split("=", 1) for q in parse_result.query.split("&"))}
             if parse_result.query
             else {}
         )
