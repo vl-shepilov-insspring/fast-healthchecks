@@ -4,6 +4,7 @@ from unittest.mock import AsyncMock, patch
 import pytest
 
 from fast_healthchecks.checks.rabbitmq import RabbitMQHealthCheck
+from tests.utils import assert_check_init
 
 pytestmark = pytest.mark.unit
 
@@ -157,12 +158,7 @@ pytestmark = pytest.mark.unit
     ],
 )
 def test_init(params: dict[str, Any], expected: dict[str, Any], exception: type[BaseException] | None) -> None:
-    if exception is not None:
-        with pytest.raises(exception, match=str(expected)):
-            RabbitMQHealthCheck(**params)  # ty: ignore[missing-argument]
-    else:
-        obj = RabbitMQHealthCheck(**params)  # ty: ignore[missing-argument]
-        assert obj.to_dict() == expected
+    assert_check_init(lambda: RabbitMQHealthCheck(**params), expected, exception)
 
 
 @pytest.mark.parametrize(
@@ -277,12 +273,7 @@ def test_from_dsn(
     expected: dict[str, Any] | str,
     exception: type[BaseException] | None,
 ) -> None:
-    if exception is not None and isinstance(expected, str):
-        with pytest.raises(exception, match=expected):
-            RabbitMQHealthCheck.from_dsn(*args, **kwargs)
-    else:
-        obj = RabbitMQHealthCheck.from_dsn(*args, **kwargs)
-        assert obj.to_dict() == expected
+    assert_check_init(lambda: RabbitMQHealthCheck.from_dsn(*args, **kwargs), expected, exception)
 
 
 @pytest.mark.asyncio

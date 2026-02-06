@@ -23,23 +23,24 @@ Example:
     print(result.healthy)
 """
 
-import ssl
-from traceback import format_exc
+from __future__ import annotations
+
 from typing import TYPE_CHECKING, Any
 
-from fast_healthchecks.checks._base import DEFAULT_HC_TIMEOUT
+from fast_healthchecks.checks._base import DEFAULT_HC_TIMEOUT, healthcheck_safe
+from fast_healthchecks.checks._imports import raise_optional_import_error
+from fast_healthchecks.checks.dsn_parsing import PostgresParseDSNResult
 from fast_healthchecks.checks.postgresql.base import BasePostgreSQLHealthCheck
-from fast_healthchecks.compat import PostgresDsn
 from fast_healthchecks.models import HealthCheckResult
-
-IMPORT_ERROR_MSG = "asyncpg is not installed. Install it with `pip install asyncpg`."
 
 try:
     import asyncpg
 except ImportError as exc:
-    raise ImportError(IMPORT_ERROR_MSG) from exc
+    raise_optional_import_error("asyncpg", "asyncpg", exc)
 
 if TYPE_CHECKING:
+    import ssl
+
     from asyncpg.connection import Connection
 
 
@@ -47,15 +48,15 @@ class PostgreSQLAsyncPGHealthCheck(BasePostgreSQLHealthCheck[HealthCheckResult])
     """Health check class for PostgreSQL using asyncpg.
 
     Attributes:
-        _name (str): The name of the health check.
-        _host (str): The hostname of the PostgreSQL server.
-        _port (int): The port number of the PostgreSQL server.
-        _user (str | None): The username for authentication.
-        _password (str | None): The password for authentication.
-        _database (str | None): The database name.
-        _ssl (ssl.SSLContext | None): The SSL context for secure connections.
-        _direct_tls (bool): Whether to use direct TLS.
-        _timeout (float): The timeout for the connection.
+        _name: The name of the health check.
+        _host: The hostname of the PostgreSQL server.
+        _port: The port number of the PostgreSQL server.
+        _user: The username for authentication.
+        _password: The password for authentication.
+        _database: The database name.
+        _ssl: The SSL context for secure connections.
+        _direct_tls: Whether to use direct TLS.
+        _timeout: The timeout for the connection.
     """
 
     __slots__ = (
@@ -93,18 +94,18 @@ class PostgreSQLAsyncPGHealthCheck(BasePostgreSQLHealthCheck[HealthCheckResult])
         timeout: float = DEFAULT_HC_TIMEOUT,
         name: str = "PostgreSQL",
     ) -> None:
-        """Initializes the PostgreSQLAsyncPGHealthCheck instance.
+        """Initialize the PostgreSQLAsyncPGHealthCheck.
 
         Args:
-            host (str): The hostname of the PostgreSQL server.
-            port (int): The port number of the PostgreSQL server.
-            user (str | None): The username for authentication.
-            password (str | None): The password for authentication.
-            database (str | None): The database name.
-            timeout (float): The timeout for the connection.
-            ssl (ssl.SSLContext | None): The SSL context for secure connections.
-            direct_tls (bool): Whether to use direct TLS.
-            name (str): The name of the health check.
+            host: The hostname of the PostgreSQL server.
+            port: The port number of the PostgreSQL server.
+            user: The username for authentication.
+            password: The password for authentication.
+            database: The database name.
+            ssl: The SSL context for secure connections.
+            direct_tls: Whether to use direct TLS.
+            timeout: The timeout for the connection.
+            name: The name of the health check.
         """
         self._host = host
         self._port = port
@@ -117,27 +118,16 @@ class PostgreSQLAsyncPGHealthCheck(BasePostgreSQLHealthCheck[HealthCheckResult])
         self._name = name
 
     @classmethod
-    def from_dsn(
+    def _from_parsed_dsn(
         cls,
-        dsn: "PostgresDsn | str",
+        parsed: PostgresParseDSNResult,
         *,
         name: str = "PostgreSQL",
         timeout: float = DEFAULT_HC_TIMEOUT,
-    ) -> "PostgreSQLAsyncPGHealthCheck":
-        """Creates a PostgreSQLAsyncPGHealthCheck instance from a DSN.
-
-        Args:
-            dsn (PostgresDsn | str): The DSN for the PostgreSQL database.
-            name (str): The name of the health check.
-            timeout (float): The timeout for the connection.
-
-        Returns:
-            PostgreSQLAsyncPGHealthCheck: The health check instance.
-        """
-        dsn = cls.validate_dsn(dsn, type_=PostgresDsn)
-        parsed_dsn = cls.parse_dsn(dsn)
-        parse_result = parsed_dsn["parse_result"]
-        sslctx = parsed_dsn["sslctx"]
+        **kwargs: Any,  # noqa: ARG003, ANN401
+    ) -> PostgreSQLAsyncPGHealthCheck:
+        parse_result = parsed["parse_result"]
+        sslctx = parsed["sslctx"]
         return cls(
             host=parse_result.hostname or "localhost",
             port=parse_result.port or 5432,
@@ -145,12 +135,14 @@ class PostgreSQLAsyncPGHealthCheck(BasePostgreSQLHealthCheck[HealthCheckResult])
             password=parse_result.password,
             database=parse_result.path.lstrip("/"),
             ssl=sslctx,
+            direct_tls=parsed["direct_tls"],
             timeout=timeout,
             name=name,
         )
 
+    @healthcheck_safe(invalidate_on_error=False)
     async def __call__(self) -> HealthCheckResult:
-        """Performs the health check.
+        """Perform the health check.
 
         Returns:
             HealthCheckResult: The result of the health check.
@@ -170,18 +162,11 @@ class PostgreSQLAsyncPGHealthCheck(BasePostgreSQLHealthCheck[HealthCheckResult])
             async with connection.transaction(readonly=True):
                 healthy: bool = bool(await connection.fetchval("SELECT 1"))
                 return HealthCheckResult(name=self._name, healthy=healthy)
-        except BaseException:  # noqa: BLE001
-            return HealthCheckResult(name=self._name, healthy=False, error_details=format_exc())
         finally:
             if connection is not None and not connection.is_closed():
                 await connection.close(timeout=self._timeout)
 
-    def to_dict(self) -> dict[str, Any]:
-        """Converts the PostgreSQLAsyncPGHealthCheck object to a dictionary.
-
-        Returns:
-            A dictionary with the PostgreSQLAsyncPGHealthCheck attributes.
-        """
+    def _build_dict(self) -> dict[str, Any]:
         return {
             "host": self._host,
             "port": self._port,

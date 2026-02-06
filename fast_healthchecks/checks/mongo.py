@@ -19,35 +19,32 @@ Example:
     print(result.healthy)
 """
 
-import logging
-from traceback import format_exc
-from typing import Any, TypedDict, final
-from urllib.parse import ParseResult, unquote, urlparse
+from __future__ import annotations
 
-from fast_healthchecks.checks._base import DEFAULT_HC_TIMEOUT, HealthCheckDSN
-from fast_healthchecks.compat import MongoDsn
+import asyncio
+from collections.abc import Awaitable
+from typing import Any, final
+from urllib.parse import urlsplit
+
+from fast_healthchecks.checks._base import (
+    DEFAULT_HC_TIMEOUT,
+    ClientCachingMixin,
+    HealthCheckDSN,
+    healthcheck_safe,
+)
+from fast_healthchecks.checks._imports import raise_optional_import_error
+from fast_healthchecks.checks.dsn_parsing import MongoParseDSNResult
 from fast_healthchecks.models import HealthCheckResult
-
-IMPORT_ERROR_MSG = "motor is not installed. Install it with `pip install motor`."
+from fast_healthchecks.utils import parse_query_string
 
 try:
     from motor.motor_asyncio import AsyncIOMotorClient
 except ImportError as exc:
-    raise ImportError(IMPORT_ERROR_MSG) from exc
-
-
-logger = logging.getLogger(__name__)
-
-
-class ParseDSNResult(TypedDict, total=True):
-    """A dictionary containing the results of parsing a DSN."""
-
-    parse_result: ParseResult
-    authSource: str
+    raise_optional_import_error("motor", "motor", exc)
 
 
 @final
-class MongoHealthCheck(HealthCheckDSN[HealthCheckResult]):
+class MongoHealthCheck(ClientCachingMixin, HealthCheckDSN[HealthCheckResult]):
     """A class to perform health checks on MongoDB.
 
     Attributes:
@@ -63,7 +60,10 @@ class MongoHealthCheck(HealthCheckDSN[HealthCheckResult]):
 
     __slots__ = (
         "_auth_source",
+        "_client",
+        "_client_loop",
         "_database",
+        "_ensure_client_lock",
         "_hosts",
         "_name",
         "_password",
@@ -80,6 +80,8 @@ class MongoHealthCheck(HealthCheckDSN[HealthCheckResult]):
     _auth_source: str
     _timeout: float
     _name: str
+    _client: AsyncIOMotorClient[dict[str, Any]] | None
+    _client_loop: asyncio.AbstractEventLoop | None
 
     def __init__(  # noqa: PLR0913
         self,
@@ -93,7 +95,7 @@ class MongoHealthCheck(HealthCheckDSN[HealthCheckResult]):
         timeout: float = DEFAULT_HC_TIMEOUT,
         name: str = "MongoDB",
     ) -> None:
-        """Initializes the MongoHealthCheck class.
+        """Initialize the MongoHealthCheck.
 
         Args:
             hosts: The MongoDB host or list of hosts.
@@ -113,46 +115,60 @@ class MongoHealthCheck(HealthCheckDSN[HealthCheckResult]):
         self._auth_source = auth_source
         self._timeout = timeout
         self._name = name
+        super().__init__()
+
+    def _create_client(self) -> AsyncIOMotorClient[dict[str, Any]]:
+        return AsyncIOMotorClient(
+            host=self._hosts,
+            port=self._port,
+            username=self._user,
+            password=self._password,
+            authSource=self._auth_source,
+            serverSelectionTimeoutMS=int(self._timeout * 1000),
+        )
+
+    def _close_client(self, client: AsyncIOMotorClient[dict[str, Any]]) -> Awaitable[None]:  # noqa: PLR6301
+        result = client.close()
+        if asyncio.iscoroutine(result):
+            return result
+
+        async def _noop() -> None:
+            pass
+
+        return _noop()
 
     @classmethod
-    def parse_dsn(cls, dsn: str) -> ParseDSNResult:
+    def _allowed_schemes(cls) -> tuple[str, ...]:
+        return ("mongodb", "mongodb+srv")
+
+    @classmethod
+    def _default_name(cls) -> str:
+        return "MongoDB"
+
+    @classmethod
+    def parse_dsn(cls, dsn: str) -> MongoParseDSNResult:
         """Parse the DSN and return the results.
 
         Args:
-            dsn (str): The DSN to parse.
+            dsn: The DSN to parse.
 
         Returns:
-            ParseDSNResult: The results of parsing the DSN.
+            MongoParseDSNResult: The results of parsing the DSN.
         """
-        parse_result: ParseResult = urlparse(dsn)
-        query = (
-            {k: unquote(v) for k, v in (q.split("=", 1) for q in parse_result.query.split("&"))}
-            if parse_result.query
-            else {}
-        )
+        parse_result = urlsplit(dsn)
+        query = parse_query_string(parse_result.query)
         return {"parse_result": parse_result, "authSource": query.get("authSource", "admin")}
 
     @classmethod
-    def from_dsn(
+    def _from_parsed_dsn(
         cls,
-        dsn: "MongoDsn | str",
+        parsed: MongoParseDSNResult,
         *,
         name: str = "MongoDB",
         timeout: float = DEFAULT_HC_TIMEOUT,
-    ) -> "MongoHealthCheck":
-        """Creates a MongoHealthCheck instance from a DSN.
-
-        Args:
-            dsn (MongoDsn | str): The DSN for the MongoDB database.
-            name (str): The name of the health check.
-            timeout (float): The timeout for the connection.
-
-        Returns:
-            MongoHealthCheck: The health check instance.
-        """
-        dsn = cls.validate_dsn(dsn, type_=MongoDsn)
-        parsed_dsn = cls.parse_dsn(dsn)
-        parse_result = parsed_dsn["parse_result"]
+        **kwargs: Any,  # noqa: ARG003, ANN401
+    ) -> MongoHealthCheck:
+        parse_result = parsed["parse_result"]
         hosts: str | list[str]
         port: int | None
         if "," in parse_result.netloc:
@@ -167,50 +183,26 @@ class MongoHealthCheck(HealthCheckDSN[HealthCheckResult]):
             user=parse_result.username,
             password=parse_result.password,
             database=parse_result.path.lstrip("/") or None,
-            auth_source=parsed_dsn["authSource"],
+            auth_source=parsed["authSource"],
             timeout=timeout,
             name=name,
         )
 
+    @healthcheck_safe(invalidate_on_error=True)
     async def __call__(self) -> HealthCheckResult:
-        """Performs the health check on MongoDB.
+        """Perform the health check on MongoDB.
 
         Returns:
-            A HealthCheckResult object.
+            HealthCheckResult: The result of the health check.
         """
-        client: AsyncIOMotorClient[dict[str, Any]]
-        if isinstance(self._hosts, list):
-            client = AsyncIOMotorClient(  # pragma: no cover
-                host=self._hosts,
-                username=self._user,
-                password=self._password,
-                authSource=self._auth_source,
-                serverSelectionTimeoutMS=int(self._timeout * 1000),
-            )
-        else:
-            client = AsyncIOMotorClient(
-                host=self._hosts,
-                port=self._port,
-                username=self._user,
-                password=self._password,
-                authSource=self._auth_source,
-                serverSelectionTimeoutMS=int(self._timeout * 1000),
-            )
+        client = await self._ensure_client()
         database = client[self._database] if self._database else client[self._auth_source]
-        try:
-            res = await database.command("ping")
-            return HealthCheckResult(name=self._name, healthy=res.get("ok") == 1.0)
-        except BaseException:  # noqa: BLE001
-            return HealthCheckResult(name=self._name, healthy=False, error_details=format_exc())
-        finally:
-            client.close()
+        res = await database.command("ping")
+        ok_raw = res.get("ok")
+        ok_value = ok_raw if isinstance(ok_raw, (bool, int, float)) else 0
+        return HealthCheckResult(name=self._name, healthy=int(ok_value) == 1)
 
-    def to_dict(self) -> dict[str, Any]:
-        """Converts the MongoHealthCheck object to a dictionary.
-
-        Returns:
-            A dictionary with the MongoHealthCheck attributes.
-        """
+    def _build_dict(self) -> dict[str, Any]:
         return {
             "hosts": self._hosts,
             "port": self._port,

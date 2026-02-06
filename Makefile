@@ -50,7 +50,6 @@ bash:
 ## Install pre-commit hooks. | Development
 install-hooks:
 	pre-commit install --hook-type pre-commit
-	pre-commit install --hook-type commit-msg
 	pre-commit install --install-hooks
 
 ## Update uv dependencies
@@ -63,23 +62,24 @@ lint:
 
 ## Run imports tests
 tests-imports:
-	@uv sync
-	@uv pip install pytest pytest-asyncio pytest-cov greenlet
-	@uv run pytest --cov --cov-append -m 'imports' tests/unit/test_imports.py
+	@uv sync --group=dev
+	@uv run pytest -p no:xdist --cov --cov-append -m 'imports' tests/unit/test_imports.py
 
-## Run integration tests
+## Run integration tests (if DOCKER_SERVICES_UP=1, skip compose up/down)
 tests-integration:
-	@docker compose up -d
-	@echo "Waiting 15 seconds for services to start..."
-	@sleep 15s
+ifneq ($(DOCKER_SERVICES_UP),1)
+	@docker compose up -d --wait
+endif
 	@uv sync --group=dev --all-extras
-	@uv run pytest --cov --cov-append -m 'integration'
+	@uv run pytest -n auto --cov --cov-append -m 'integration'
+ifneq ($(DOCKER_SERVICES_UP),1)
 	@echo "Stopping services..."
 	@docker compose down --remove-orphans --volumes
+endif
 
 ## Run unit tests
 tests-unit:
-	@uv run pytest --cov --cov-append -m 'unit'
+	@uv run pytest -n auto --cov --cov-append -m 'unit'
 
 ## Run all tests
 tests-all:
@@ -88,8 +88,11 @@ tests-all:
 	@make tests-integration
 	@make tests-unit
 	@uv run coverage report
-	@uv sync --group=dev --group=docs --all-extras
 
 ## Serve documentation locally
 serve-docs:
 	@uv run mkdocs serve
+
+## Run SonarQube analysis (requires sonar-scanner)
+sonar:
+	@./scripts/sonar.sh
