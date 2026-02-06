@@ -1,8 +1,8 @@
 site_name: Fast Healthchecks
-site_description: Healthcheck for most popular ASGI frameworks
-site_url: https://github.com/shepilov-vladislav/fast-healthchecks
+site_description: Health checks for the most popular ASGI frameworks
+site_url: https://shepilov-vladislav.github.io/fast-healthchecks/
 site_author: Vladislav Shepilov
-copyright: Copyright &copy; 2024 Vladislav Shepilov
+copyright: Copyright &copy; 2026 Vladislav Shepilov
 
 repo_name: fast-healthchecks
 repo_url: https://github.com/shepilov-vladislav/fast-healthchecks
@@ -64,3 +64,5 @@ nav:
   - Home: index.md
   - API Reference: api.md
   - Changelog: changelog.md
+  - Decisions:
+    - ADR 001 - Check contract: decisions/001-check-contract.md

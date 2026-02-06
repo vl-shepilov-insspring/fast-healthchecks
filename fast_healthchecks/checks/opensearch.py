@@ -19,22 +19,31 @@ Example:
     print(result.healthy)
 """
 
-from traceback import format_exc
-from typing import Any, final
+from __future__ import annotations
 
-from fast_healthchecks.checks._base import DEFAULT_HC_TIMEOUT, HealthCheck
+import asyncio
+from collections.abc import Awaitable
+from typing import Any, cast, final
+from urllib.parse import unquote, urlsplit
+
+from fast_healthchecks.checks._base import (
+    DEFAULT_HC_TIMEOUT,
+    ClientCachingMixin,
+    HealthCheckDSN,
+    healthcheck_safe,
+)
+from fast_healthchecks.checks._imports import raise_optional_import_error
+from fast_healthchecks.checks.dsn_parsing import OpenSearchParseDSNResult
 from fast_healthchecks.models import HealthCheckResult
 
-IMPORT_ERROR_MSG = "opensearch-py is not installed. Install it with `pip install opensearch-py`."
-
 try:
-    from opensearchpy import AsyncOpenSearch  # ty: ignore[possibly-unbound-import]
+    from opensearchpy import AsyncOpenSearch
 except ImportError as exc:
-    raise ImportError(IMPORT_ERROR_MSG) from exc
+    raise_optional_import_error("opensearch", "opensearch-py", exc)
 
 
 @final
-class OpenSearchHealthCheck(HealthCheck[HealthCheckResult]):
+class OpenSearchHealthCheck(ClientCachingMixin, HealthCheckDSN[HealthCheckResult]):
     """A class to perform health checks on OpenSearch.
 
     Attributes:
@@ -50,6 +59,9 @@ class OpenSearchHealthCheck(HealthCheck[HealthCheckResult]):
 
     __slots__ = (
         "_ca_certs",
+        "_client",
+        "_client_loop",
+        "_ensure_client_lock",
         "_hosts",
         "_http_auth",
         "_name",
@@ -67,6 +79,8 @@ class OpenSearchHealthCheck(HealthCheck[HealthCheckResult]):
     _ca_certs: str | None
     _timeout: float
     _name: str
+    _client: AsyncOpenSearch | None
+    _client_loop: asyncio.AbstractEventLoop | None
 
     def __init__(  # noqa: PLR0913
         self,
@@ -80,7 +94,7 @@ class OpenSearchHealthCheck(HealthCheck[HealthCheckResult]):
         timeout: float = DEFAULT_HC_TIMEOUT,
         name: str = "OpenSearch",
     ) -> None:
-        """Initializes the OpenSearchHealthCheck object.
+        """Initialize the OpenSearchHealthCheck.
 
         Args:
             hosts: The OpenSearch hosts.
@@ -100,35 +114,91 @@ class OpenSearchHealthCheck(HealthCheck[HealthCheckResult]):
         self._ca_certs = ca_certs
         self._timeout = timeout
         self._name = name
+        super().__init__()
 
-    async def __call__(self) -> HealthCheckResult:
-        """Performs the health check on OpenSearch.
-
-        Returns:
-            A HealthCheckResult object.
-        """
-        client = AsyncOpenSearch(
+    def _create_client(self) -> AsyncOpenSearch:
+        return AsyncOpenSearch(
             hosts=self._hosts,
             http_auth=self._http_auth,
             use_ssl=self._use_ssl,
             verify_certs=self._verify_certs,
             ssl_show_warn=self._ssl_show_warn,
             ca_certs=self._ca_certs,
+            timeout=self._timeout,
         )
-        try:
-            info = await client.info()
-            return HealthCheckResult(name=self._name, healthy=info["version"]["number"] is not None)
-        except BaseException:  # noqa: BLE001
-            return HealthCheckResult(name=self._name, healthy=False, error_details=format_exc())
-        finally:
-            await client.close()
 
-    def to_dict(self) -> dict[str, Any]:
-        """Converts the OpenSearchHealthCheck object to a dictionary.
+    def _close_client(self, client: AsyncOpenSearch) -> Awaitable[None]:  # noqa: PLR6301
+        return client.close()
+
+    @classmethod
+    def _allowed_schemes(cls) -> tuple[str, ...]:
+        return ("http", "https")
+
+    @classmethod
+    def _default_name(cls) -> str:
+        return "OpenSearch"
+
+    @classmethod
+    def parse_dsn(cls, dsn: str) -> OpenSearchParseDSNResult:
+        """Parse the OpenSearch DSN and return the results.
+
+        Args:
+            dsn: The DSN to parse.
 
         Returns:
-            A dictionary with the OpenSearchHealthCheck attributes.
+            OpenSearchParseDSNResult: The results of parsing the DSN.
+
+        Raises:
+            ValueError: If DSN has missing host.
         """
+        parsed = urlsplit(dsn)
+        if not parsed.hostname:
+            msg = "OpenSearch DSN must include a host"
+            raise ValueError(msg) from None
+
+        http_auth: tuple[str, str] | None = None
+        if parsed.username is not None:
+            http_auth = (unquote(parsed.username), unquote(parsed.password or ""))
+
+        port = parsed.port or (443 if parsed.scheme == "https" else 9200)
+        return {
+            "hosts": [f"{parsed.hostname}:{port}"],
+            "http_auth": http_auth,
+            "use_ssl": parsed.scheme == "https",
+        }
+
+    @classmethod
+    def _from_parsed_dsn(
+        cls,
+        parsed: OpenSearchParseDSNResult,
+        *,
+        name: str = "OpenSearch",
+        timeout: float = DEFAULT_HC_TIMEOUT,
+        **kwargs: Any,  # noqa: ANN401
+    ) -> OpenSearchHealthCheck:
+        return cls(
+            hosts=parsed["hosts"],
+            http_auth=parsed["http_auth"],
+            use_ssl=parsed["use_ssl"],
+            verify_certs=cast("bool", kwargs.get("verify_certs", False)),
+            ssl_show_warn=cast("bool", kwargs.get("ssl_show_warn", False)),
+            ca_certs=cast("str | None", kwargs.get("ca_certs")),
+            timeout=timeout,
+            name=name,
+        )
+
+    @healthcheck_safe(invalidate_on_error=True)
+    async def __call__(self) -> HealthCheckResult:
+        """Perform the health check on OpenSearch.
+
+        Returns:
+            HealthCheckResult: The result of the health check.
+        """
+        client = await self._ensure_client()
+        await client.info()
+        return HealthCheckResult(name=self._name, healthy=True)
+
+    def _build_dict(self) -> dict[str, Any]:
         return {
             "hosts": self._hosts,
             "http_auth": self._http_auth,

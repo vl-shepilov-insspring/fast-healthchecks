@@ -35,7 +35,11 @@ def test_readiness_probe_fail() -> None:
     with TestClient(app=app_fail) as client:
         response = client.get("/health/readiness")
         assert response.status_code == HTTP_503_SERVICE_UNAVAILABLE
-        assert response.content == b""
+        data = response.json()
+        # With debug=True the body is the full report (results, allow_partial_failure); otherwise minimal {"status": "unhealthy"}
+        assert data.get("status") == "unhealthy" or (
+            "results" in data and any(not r.get("healthy", True) for r in data["results"])
+        )
 
 
 def test_custom_handler() -> None:

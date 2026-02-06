@@ -8,6 +8,7 @@ from asyncpg import Connection
 
 from fast_healthchecks.checks.postgresql.asyncpg import PostgreSQLAsyncPGHealthCheck
 from fast_healthchecks.checks.postgresql.base import create_ssl_context
+from fast_healthchecks.utils import parse_query_string
 from tests.utils import (
     TEST_SSLCERT,
     TEST_SSLKEY,
@@ -118,7 +119,7 @@ pytestmark = pytest.mark.unit
                 "user": "postgres",
                 "password": "pass",
                 "database": "db",
-                "ssl": ("verify-full", TEST_SSLCERT, TEST_SSLKEY, TEST_SSLROOTCERT),
+                "ssl": ("verify-full", unquote(TEST_SSLCERT), unquote(TEST_SSLKEY), unquote(TEST_SSLROOTCERT)),
             },
             {
                 "host": "localhost",
@@ -126,7 +127,7 @@ pytestmark = pytest.mark.unit
                 "user": "postgres",
                 "password": "pass",
                 "database": "db",
-                "ssl": ("verify-full", TEST_SSLCERT, TEST_SSLKEY, TEST_SSLROOTCERT),
+                "ssl": ("verify-full", unquote(TEST_SSLCERT), unquote(TEST_SSLKEY), unquote(TEST_SSLROOTCERT)),
                 "direct_tls": False,
                 "timeout": 5.0,
                 "name": "PostgreSQL",
@@ -140,7 +141,7 @@ pytestmark = pytest.mark.unit
                 "user": "postgres",
                 "password": "pass",
                 "database": "db",
-                "ssl": ("verify-full", TEST_SSLCERT, TEST_SSLKEY, TEST_SSLROOTCERT),
+                "ssl": ("verify-full", unquote(TEST_SSLCERT), unquote(TEST_SSLKEY), unquote(TEST_SSLROOTCERT)),
                 "direct_tls": True,
             },
             {
@@ -149,7 +150,7 @@ pytestmark = pytest.mark.unit
                 "user": "postgres",
                 "password": "pass",
                 "database": "db",
-                "ssl": ("verify-full", TEST_SSLCERT, TEST_SSLKEY, TEST_SSLROOTCERT),
+                "ssl": ("verify-full", unquote(TEST_SSLCERT), unquote(TEST_SSLKEY), unquote(TEST_SSLROOTCERT)),
                 "direct_tls": True,
                 "timeout": 5.0,
                 "name": "PostgreSQL",
@@ -163,7 +164,7 @@ pytestmark = pytest.mark.unit
                 "user": "postgres",
                 "password": "pass",
                 "database": "db",
-                "ssl": ("verify-full", TEST_SSLCERT, TEST_SSLKEY, TEST_SSLROOTCERT),
+                "ssl": ("verify-full", unquote(TEST_SSLCERT), unquote(TEST_SSLKEY), unquote(TEST_SSLROOTCERT)),
                 "direct_tls": True,
                 "timeout": 10.0,
             },
@@ -173,7 +174,7 @@ pytestmark = pytest.mark.unit
                 "user": "postgres",
                 "password": "pass",
                 "database": "db",
-                "ssl": ("verify-full", TEST_SSLCERT, TEST_SSLKEY, TEST_SSLROOTCERT),
+                "ssl": ("verify-full", unquote(TEST_SSLCERT), unquote(TEST_SSLKEY), unquote(TEST_SSLROOTCERT)),
                 "direct_tls": True,
                 "timeout": 10.0,
                 "name": "PostgreSQL",
@@ -187,7 +188,7 @@ pytestmark = pytest.mark.unit
                 "user": "postgres",
                 "password": "pass",
                 "database": "db",
-                "ssl": ("verify-full", TEST_SSLCERT, TEST_SSLKEY, TEST_SSLROOTCERT),
+                "ssl": ("verify-full", unquote(TEST_SSLCERT), unquote(TEST_SSLKEY), unquote(TEST_SSLROOTCERT)),
                 "direct_tls": True,
                 "timeout": 10.0,
                 "name": "test",
@@ -198,7 +199,7 @@ pytestmark = pytest.mark.unit
                 "user": "postgres",
                 "password": "pass",
                 "database": "db",
-                "ssl": ("verify-full", TEST_SSLCERT, TEST_SSLKEY, TEST_SSLROOTCERT),
+                "ssl": ("verify-full", unquote(TEST_SSLCERT), unquote(TEST_SSLKEY), unquote(TEST_SSLROOTCERT)),
                 "direct_tls": True,
                 "timeout": 10.0,
                 "name": "test",
@@ -209,21 +210,21 @@ pytestmark = pytest.mark.unit
 )
 def test__init(params: dict[str, Any], expected: dict[str, Any] | str, exception: type[BaseException] | None) -> None:
     files_1 = list(params.get("ssl", ()) or ())
-    files_2 = list(expected.get("ssl", ()) or ()) if exception is None else []  # ty: ignore[possibly-unbound-attribute]
+    files_2 = list(expected.get("ssl", ()) or ()) if isinstance(expected, dict) else []
     files = []
     files += files_1[1:] if files_1 else []
     files += files_2[1:] if files_2 else []
-    files = set(files)
+    files = list(set(files))
     with create_temp_files(files):
         if "ssl" in params and params["ssl"] is not None:
             params["ssl"] = create_ssl_context(*params["ssl"])
-        if "ssl" in expected and expected["ssl"] is not None:  # ty: ignore[invalid-argument-type]
-            expected["ssl"] = create_ssl_context(*expected["ssl"])  # ty: ignore[invalid-argument-type,possibly-unbound-implicit-call]
+        if isinstance(expected, dict) and "ssl" in expected and expected["ssl"] is not None:
+            expected["ssl"] = create_ssl_context(*expected["ssl"])
         if exception is not None and isinstance(expected, str):
             with pytest.raises(exception, match=expected):
-                PostgreSQLAsyncPGHealthCheck(**params)  # ty: ignore[missing-argument]
+                PostgreSQLAsyncPGHealthCheck(**params)
         else:
-            obj = PostgreSQLAsyncPGHealthCheck(**params)  # ty: ignore[missing-argument]
+            obj = PostgreSQLAsyncPGHealthCheck(**params)
             assert obj.to_dict() == expected
 
 
@@ -397,7 +398,7 @@ def test__init(params: dict[str, Any], expected: dict[str, Any] | str, exception
                 "host": "localhost",
                 "password": "pass",
                 "port": 5432,
-                "ssl": ("prefer", TEST_SSLCERT, None, None),
+                "ssl": ("prefer", unquote(TEST_SSLCERT), None, None),
                 "user": "postgres",
                 "timeout": 5.0,
                 "name": "PostgreSQL",
@@ -415,7 +416,7 @@ def test__init(params: dict[str, Any], expected: dict[str, Any] | str, exception
                 "host": "localhost",
                 "password": "pass",
                 "port": 5432,
-                "ssl": ("prefer", TEST_SSLCERT, TEST_SSLKEY, None),
+                "ssl": ("prefer", unquote(TEST_SSLCERT), unquote(TEST_SSLKEY), None),
                 "user": "postgres",
                 "timeout": 5.0,
                 "name": "PostgreSQL",
@@ -433,7 +434,7 @@ def test__init(params: dict[str, Any], expected: dict[str, Any] | str, exception
                 "host": "localhost",
                 "password": "pass",
                 "port": 5432,
-                "ssl": ("prefer", TEST_SSLCERT, TEST_SSLKEY, TEST_SSLROOTCERT),
+                "ssl": ("prefer", unquote(TEST_SSLCERT), unquote(TEST_SSLKEY), unquote(TEST_SSLROOTCERT)),
                 "user": "postgres",
                 "timeout": 5.0,
                 "name": "PostgreSQL",
@@ -465,7 +466,7 @@ def test__init(params: dict[str, Any], expected: dict[str, Any] | str, exception
                 "host": "localhost",
                 "password": "pass",
                 "port": 5432,
-                "ssl": ("require", TEST_SSLCERT, None, None),
+                "ssl": ("require", unquote(TEST_SSLCERT), None, None),
                 "user": "postgres",
                 "timeout": 5.0,
                 "name": "PostgreSQL",
@@ -483,7 +484,7 @@ def test__init(params: dict[str, Any], expected: dict[str, Any] | str, exception
                 "host": "localhost",
                 "password": "pass",
                 "port": 5432,
-                "ssl": ("require", TEST_SSLCERT, TEST_SSLKEY, None),
+                "ssl": ("require", unquote(TEST_SSLCERT), unquote(TEST_SSLKEY), None),
                 "user": "postgres",
                 "timeout": 5.0,
                 "name": "PostgreSQL",
@@ -501,7 +502,7 @@ def test__init(params: dict[str, Any], expected: dict[str, Any] | str, exception
                 "host": "localhost",
                 "password": "pass",
                 "port": 5432,
-                "ssl": ("require", TEST_SSLCERT, TEST_SSLKEY, TEST_SSLROOTCERT),
+                "ssl": ("require", unquote(TEST_SSLCERT), unquote(TEST_SSLKEY), unquote(TEST_SSLROOTCERT)),
                 "user": "postgres",
                 "timeout": 5.0,
                 "name": "PostgreSQL",
@@ -533,7 +534,7 @@ def test__init(params: dict[str, Any], expected: dict[str, Any] | str, exception
                 "host": "localhost",
                 "password": "pass",
                 "port": 5432,
-                "ssl": ("verify-ca", TEST_SSLCERT, None, None),
+                "ssl": ("verify-ca", unquote(TEST_SSLCERT), None, None),
                 "user": "postgres",
                 "timeout": 5.0,
                 "name": "PostgreSQL",
@@ -551,7 +552,7 @@ def test__init(params: dict[str, Any], expected: dict[str, Any] | str, exception
                 "host": "localhost",
                 "password": "pass",
                 "port": 5432,
-                "ssl": ("verify-ca", TEST_SSLCERT, TEST_SSLKEY, None),
+                "ssl": ("verify-ca", unquote(TEST_SSLCERT), unquote(TEST_SSLKEY), None),
                 "user": "postgres",
                 "timeout": 5.0,
                 "name": "PostgreSQL",
@@ -569,7 +570,7 @@ def test__init(params: dict[str, Any], expected: dict[str, Any] | str, exception
                 "host": "localhost",
                 "password": "pass",
                 "port": 5432,
-                "ssl": ("verify-ca", TEST_SSLCERT, TEST_SSLKEY, TEST_SSLROOTCERT),
+                "ssl": ("verify-ca", unquote(TEST_SSLCERT), unquote(TEST_SSLKEY), unquote(TEST_SSLROOTCERT)),
                 "user": "postgres",
                 "timeout": 5.0,
                 "name": "PostgreSQL",
@@ -674,7 +675,7 @@ def test_from_dsn(
     exception: type[BaseException] | None,
 ) -> None:
     parse_result: ParseResult = urlparse(args[0])
-    query = {k: unquote(v) for k, v in (q.split("=", 1) for q in parse_result.query.split("&"))}
+    query = parse_query_string(parse_result.query)
     files = [y for x, y in query.items() if x in {"sslcert", "sslkey", "sslrootcert"}]
 
     if exception is not None and isinstance(expected, str):
@@ -683,15 +684,20 @@ def test_from_dsn(
     else:
         with create_temp_files(files):
             check = PostgreSQLAsyncPGHealthCheck.from_dsn(*args, **kwargs)
-            if "ssl" in expected and expected["ssl"] is not None:  # ty: ignore[invalid-argument-type]
-                expected["ssl"] = create_ssl_context(*expected["ssl"])  # ty: ignore[invalid-argument-type, possibly-unbound-implicit-call]
+            if isinstance(expected, dict) and "ssl" in expected and expected["ssl"] is not None:
+                expected["ssl"] = create_ssl_context(*expected["ssl"])
             assert check.to_dict() == expected
 
 
 @pytest.mark.asyncio
 async def test_asyncpg_connect_args_kwargs() -> None:
-    with create_temp_files([TEST_SSLCERT, TEST_SSLKEY, TEST_SSLROOTCERT]):
-        test_ssl_context = create_ssl_context("verify-full", TEST_SSLCERT, TEST_SSLKEY, TEST_SSLROOTCERT)
+    with create_temp_files([unquote(TEST_SSLCERT), unquote(TEST_SSLKEY), unquote(TEST_SSLROOTCERT)]):
+        test_ssl_context = create_ssl_context(
+            "verify-full",
+            unquote(TEST_SSLCERT),
+            unquote(TEST_SSLKEY),
+            unquote(TEST_SSLROOTCERT),
+        )
         health_check = PostgreSQLAsyncPGHealthCheck(
             host="localhost2",
             port=6432,
@@ -703,7 +709,7 @@ async def test_asyncpg_connect_args_kwargs() -> None:
             timeout=1.5,
             name="test",
         )
-        Connection_mock = MagicMock(spec=Connection)  # noqa: N806
+        Connection_mock = MagicMock(spec=Connection)
         Connection_mock.is_closed.return_value = False
         with patch(
             "fast_healthchecks.checks.postgresql.asyncpg.asyncpg.connect",
@@ -740,8 +746,13 @@ async def test_asyncpg_connect_args_kwargs() -> None:
 
 @pytest.mark.asyncio
 async def test__call_success() -> None:
-    with create_temp_files([TEST_SSLCERT, TEST_SSLKEY, TEST_SSLROOTCERT]):
-        test_ssl_context = create_ssl_context("verify-full", TEST_SSLCERT, TEST_SSLKEY, TEST_SSLROOTCERT)
+    with create_temp_files([unquote(TEST_SSLCERT), unquote(TEST_SSLKEY), unquote(TEST_SSLROOTCERT)]):
+        test_ssl_context = create_ssl_context(
+            "verify-full",
+            unquote(TEST_SSLCERT),
+            unquote(TEST_SSLKEY),
+            unquote(TEST_SSLROOTCERT),
+        )
         health_check = PostgreSQLAsyncPGHealthCheck(
             host="localhost2",
             port=6432,
@@ -753,7 +764,7 @@ async def test__call_success() -> None:
             timeout=1.5,
             name="test",
         )
-        Connection_mock = MagicMock(spec=Connection)  # noqa: N806
+        Connection_mock = MagicMock(spec=Connection)
         Connection_mock.is_closed.return_value = False
         Connection_mock.fetchval.return_value = 1
         with patch(
@@ -781,8 +792,13 @@ async def test__call_success() -> None:
 
 @pytest.mark.asyncio
 async def test__call_failure() -> None:
-    with create_temp_files([TEST_SSLCERT, TEST_SSLKEY, TEST_SSLROOTCERT]):
-        test_ssl_context = create_ssl_context("verify-full", TEST_SSLCERT, TEST_SSLKEY, TEST_SSLROOTCERT)
+    with create_temp_files([unquote(TEST_SSLCERT), unquote(TEST_SSLKEY), unquote(TEST_SSLROOTCERT)]):
+        test_ssl_context = create_ssl_context(
+            "verify-full",
+            unquote(TEST_SSLCERT),
+            unquote(TEST_SSLKEY),
+            unquote(TEST_SSLROOTCERT),
+        )
         health_check = PostgreSQLAsyncPGHealthCheck(
             host="localhost2",
             port=6432,
@@ -794,7 +810,7 @@ async def test__call_failure() -> None:
             timeout=1.5,
             name="test",
         )
-        Connection_mock = MagicMock(spec=Connection)  # noqa: N806
+        Connection_mock = MagicMock(spec=Connection)
         Connection_mock.is_closed.return_value = False
         Connection_mock.fetchval.side_effect = Exception("Database error")
         with patch(
