@@ -137,6 +137,7 @@ venv.bak/
 
 # mkdocs documentation
 /site
+docs/_include/
 
 # mypy
 .mypy_cache/
@@ -176,3 +177,6 @@ report.xml
 
 .copier-answers.yml
 .gitlab-ci.yml
+.cursor/
+.scannerwork/
+.env

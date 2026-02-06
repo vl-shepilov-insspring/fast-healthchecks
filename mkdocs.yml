@@ -1,8 +1,8 @@
 site_name: Fast Healthchecks
-site_description: Healthcheck for most popular ASGI frameworks
-site_url: https://github.com/shepilov-vladislav/fast-healthchecks
+site_description: Health checks for the most popular ASGI frameworks
+site_url: https://shepilov-vladislav.github.io/fast-healthchecks/
 site_author: Vladislav Shepilov
-copyright: Copyright &copy; 2024 Vladislav Shepilov
+copyright: Copyright &copy; 2026 Vladislav Shepilov
 
 repo_name: fast-healthchecks
 repo_url: https://github.com/shepilov-vladislav/fast-healthchecks
@@ -10,7 +10,13 @@ edit_uri: edit/main/docs/
 
 plugins:
   - search
-  - mkdocstrings
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [.]
+          options:
+            docstring_style: google
+            show_source: true
   - include-markdown
 
 theme:
@@ -19,6 +25,7 @@ theme:
   logo: img/green.svg
   icon:
     repo: fontawesome/brands/github
+  language: en
 
   palette:
     # Palette toggle for light mode
@@ -42,9 +49,15 @@ theme:
   - search.highlight
   - content.tabs.link
   - content.code.copy
+  - content.action.edit
+  - content.action.view
   language: en
+  navigation:
+    tracking: true
 
 markdown_extensions:
+  - toc:
+      permalink: true
   - attr_list
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
@@ -62,5 +75,19 @@ markdown_extensions:
 
 nav:
   - Home: index.md
+  - Installation: installation.md
+  - Usage: usage.md
+  - Lifecycle and shutdown: lifecycle.md
+  - Probe options: probe-options.md
+  - Running probes without ASGI: run-probe.md
+  - Configuration: configuration.md
+  - URL check and SSRF protection: ssrf.md
+  - DSN formats: dsn-formats.md
   - API Reference: api.md
   - Changelog: changelog.md
+  - Style guide: style-guide.md
+  - Contributing: contributing.md
+  - Security: security.md
+  - Decisions:
+    - Index: decisions/README.md
+    - ADR 001 - Check contract: decisions/001-check-contract.md

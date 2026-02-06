@@ -1,3 +1,5 @@
+"""Integration tests for FastStream health() with real backends."""
+
 import json
 from http import HTTPStatus
 
@@ -8,37 +10,49 @@ from examples.faststream_example.main import app_custom, app_fail, app_integrati
 
 pytestmark = pytest.mark.integration
 
-client = TestClient(app_integration)
-
 
 def test_liveness_probe() -> None:
-    response = client.get("/health/liveness")
-    assert response.status_code == HTTPStatus.NO_CONTENT
-    assert response.content == b""
+    """Liveness probe returns success when checks pass."""
+    with TestClient(app_integration) as client:
+        response = client.get("/health/liveness")
+        assert response.status_code == HTTPStatus.NO_CONTENT
+        assert response.content == b""
 
 
 def test_readiness_probe() -> None:
-    response = client.get("/health/readiness")
-    assert response.status_code == HTTPStatus.NO_CONTENT
-    assert response.content == b""
+    """Readiness probe returns success when all checks pass."""
+    with TestClient(app_integration) as client:
+        response = client.get("/health/readiness")
+        assert response.status_code == HTTPStatus.NO_CONTENT, (
+            f"readiness returned {response.status_code}; body={response.text!r}"
+        )
+        assert response.content == b""
 
 
 def test_startup_probe() -> None:
-    response = client.get("/health/startup")
-    assert response.status_code == HTTPStatus.NO_CONTENT
-    assert response.content == b""
+    """Startup probe returns success when checks pass."""
+    with TestClient(app_integration) as client:
+        response = client.get("/health/startup")
+        assert response.status_code == HTTPStatus.NO_CONTENT
+        assert response.content == b""
 
 
 def test_readiness_probe_fail() -> None:
-    client_fail = TestClient(app_fail)
-    response = client_fail.get("/health/readiness")
-    assert response.status_code == HTTPStatus.SERVICE_UNAVAILABLE
-    assert response.content == b""
+    """Readiness probe returns failure when a check fails."""
+    with TestClient(app_fail) as client:
+        response = client.get("/health/readiness")
+        assert response.status_code == HTTPStatus.SERVICE_UNAVAILABLE
+        data = response.json()
+        # With debug=True the body is the full report (results, allow_partial_failure); otherwise minimal {"status": "unhealthy"}
+        assert data.get("status") == "unhealthy" or (
+            "results" in data and any(not r.get("healthy", True) for r in data["results"])
+        )
 
 
 def test_custom_handler() -> None:
-    client_custom = TestClient(app_custom)
-    response = client_custom.get("/custom_health/readiness")
+    """Custom handler is used for probe response."""
+    with TestClient(app_custom) as client:
+        response = client.get("/custom_health/readiness")
     assert response.status_code == HTTPStatus.OK
     assert response.content == json.dumps(
         {"results": [{"name": "Async dummy", "healthy": True, "error_details": None}], "allow_partial_failure": False},

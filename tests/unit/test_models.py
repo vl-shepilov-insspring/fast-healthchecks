@@ -1,11 +1,14 @@
+"""Tests for HealthCheckResult and HealthCheckReport."""
+
 import pytest
 
-from fast_healthchecks.models import HealthcheckReport, HealthCheckResult
+from fast_healthchecks.models import HealthCheckReport, HealthCheckResult
 
 pytestmark = pytest.mark.unit
 
 
 def test_healthcheck_result() -> None:
+    """HealthCheckResult has name, healthy, error_details and correct str()."""
     hcr1 = HealthCheckResult(
         name="test",
         healthy=True,
@@ -20,7 +23,8 @@ def test_healthcheck_result() -> None:
 
 
 def test_healthcheck_report() -> None:
-    hcr = HealthcheckReport(
+    """HealthCheckReport.healthy is True when all results healthy (or partial allowed)."""
+    hcr = HealthCheckReport(
         results=[
             HealthCheckResult(
                 name="test1",
@@ -36,7 +40,7 @@ def test_healthcheck_report() -> None:
     assert str(hcr) == "test1: healthy\ntest2: unhealthy"
     assert hcr.healthy is False
 
-    hcr = HealthcheckReport(
+    hcr = HealthCheckReport(
         results=[
             HealthCheckResult(
                 name="test1",
@@ -51,3 +55,12 @@ def test_healthcheck_report() -> None:
         allow_partial_failure=True,
     )
     assert hcr.healthy is True
+
+    hcr = HealthCheckReport(
+        results=[
+            HealthCheckResult(name="a", healthy=False),
+            HealthCheckResult(name="b", healthy=False),
+        ],
+        allow_partial_failure=True,
+    )
+    assert hcr.healthy is False

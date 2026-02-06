@@ -1,14 +1,46 @@
 """Models for healthchecks."""
 
+from __future__ import annotations
+
+import asyncio
 from dataclasses import dataclass
 
 __all__ = (
+    "HealthCheckError",
+    "HealthCheckReport",
     "HealthCheckResult",
-    "HealthcheckReport",
+    "HealthCheckSSRFError",
+    "HealthCheckTimeoutError",
 )
 
 
-@dataclass
+class HealthCheckError(Exception):
+    """Base exception for health-check-related failures.
+
+    Raised or used as a base for timeouts, SSRF validation, and other
+    health-check errors. Subclasses preserve the original exception type
+    (e.g. HealthCheckTimeoutError is also an asyncio.TimeoutError) so
+    existing code that catches TimeoutError or ValueError continues to work.
+    """
+
+
+class HealthCheckTimeoutError(HealthCheckError, asyncio.TimeoutError):
+    """Raised when a probe or check run exceeds its timeout.
+
+    Subclass of both HealthCheckError and asyncio.TimeoutError so that
+    ``except asyncio.TimeoutError`` or ``except TimeoutError`` still catch it.
+    """
+
+
+class HealthCheckSSRFError(HealthCheckError, ValueError):
+    """Raised when URL or host validation fails (SSRF / block_private_hosts).
+
+    Subclass of both HealthCheckError and ValueError so that
+    ``except ValueError`` still catches it.
+    """
+
+
+@dataclass(frozen=True)
 class HealthCheckResult:
     """Result of a healthcheck.
 
@@ -27,13 +59,13 @@ class HealthCheckResult:
         return f"{self.name}: {'healthy' if self.healthy else 'unhealthy'}"
 
 
-@dataclass
-class HealthcheckReport:
+@dataclass(frozen=True)
+class HealthCheckReport:
     """Report of healthchecks.
 
     Attributes:
-        healthy: Whether all healthchecks passed.
         results: List of healthcheck results.
+        allow_partial_failure: If True, report is healthy when at least one check passes.
     """
 
     results: list[HealthCheckResult]
@@ -45,5 +77,7 @@ class HealthcheckReport:
 
     @property
     def healthy(self) -> bool:
-        """Return whether all healthchecks passed."""
-        return all(result.healthy for result in self.results) or self.allow_partial_failure
+        """Return whether all healthchecks passed (or allowed partial failure)."""
+        if self.allow_partial_failure:
+            return any(result.healthy for result in self.results)
+        return all(result.healthy for result in self.results)
