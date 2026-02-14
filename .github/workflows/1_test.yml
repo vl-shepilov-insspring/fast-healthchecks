@@ -53,7 +53,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Restore .venv cache (pre-commit)
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: .venv
           key: venv-precommit-${{ runner.os }}-${{ hashFiles('uv.lock', 'pyproject.toml') }}
@@ -62,7 +62,7 @@ jobs:
         run: uv sync --all-extras --dev
 
       - name: Save .venv cache (pre-commit)
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v5
         with:
           path: .venv
           key: venv-precommit-${{ runner.os }}-${{ hashFiles('uv.lock', 'pyproject.toml') }}
@@ -156,7 +156,7 @@ jobs:
 
       - name: Restore Docker Compose images
         id: restore-compose-cache
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: .cache/docker-compose
           key: compose-images-v3-${{ runner.os }}-${{ hashFiles('docker-compose.yml', '.env.example') }}
@@ -324,7 +324,7 @@ jobs:
 
       - name: Cache Docker Compose images
         if: always() && matrix.python-version == '3.14' && steps.docker_cache_size.outputs.valid == 'true'
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v5
         continue-on-error: true
         with:
           path: .cache/docker-compose
