@@ -12,25 +12,31 @@
         <meta name="author" content="Vladislav Shepilov">
       
       
+        <link rel="canonical" href="https://shepilov-vladislav.github.io/fast-healthchecks/lifecycle/">
       
+      
+        <link rel="prev" href="../usage/">
+      
+      
+        <link rel="next" href="../probe-options/">
       
       
         
       
       
-      <link rel="icon" href="/fast-healthchecks/img/favicon.ico">
+      <link rel="icon" href="../img/favicon.ico">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
     
     
       
-        <title>Fast Healthchecks</title>
+        <title>Lifecycle and shutdown - Fast Healthchecks</title>
       
     
     
-      <link rel="stylesheet" href="/fast-healthchecks/assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
       
         
-        <link rel="stylesheet" href="/fast-healthchecks/assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -49,9 +55,9 @@
       
     
     
-      <link rel="stylesheet" href="/fast-healthchecks/assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
     
-    <script>__md_scope=new URL("/fast-healthchecks/",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -75,6 +81,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#lifecycle-and-shutdown" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -87,9 +98,9 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="/fast-healthchecks/." title="Fast Healthchecks" class="md-header__button md-logo" aria-label="Fast Healthchecks" data-md-component="logo">
+    <a href=".." title="Fast Healthchecks" class="md-header__button md-logo" aria-label="Fast Healthchecks" data-md-component="logo">
       
-  <img src="/fast-healthchecks/img/green.svg" alt="logo">
+  <img src="../img/green.svg" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -106,7 +117,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              
+              Lifecycle and shutdown
             
           </span>
         </div>
@@ -224,9 +235,9 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="/fast-healthchecks/." title="Fast Healthchecks" class="md-nav__button md-logo" aria-label="Fast Healthchecks" data-md-component="logo">
+    <a href=".." title="Fast Healthchecks" class="md-nav__button md-logo" aria-label="Fast Healthchecks" data-md-component="logo">
       
-  <img src="/fast-healthchecks/img/green.svg" alt="logo">
+  <img src="../img/green.svg" alt="logo">
 
     </a>
     Fast Healthchecks
@@ -253,7 +264,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/fast-healthchecks/." class="md-nav__link">
+      <a href=".." class="md-nav__link">
         
   
   
@@ -280,7 +291,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/fast-healthchecks/installation/" class="md-nav__link">
+      <a href="../installation/" class="md-nav__link">
         
   
   
@@ -307,7 +318,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/fast-healthchecks/usage/" class="md-nav__link">
+      <a href="../usage/" class="md-nav__link">
         
   
   
@@ -331,10 +342,37 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="/fast-healthchecks/lifecycle/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lifecycle and shutdown
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -350,6 +388,59 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#open-client-mechanics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Open client mechanics
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cleanup-paths-x-and-y" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cleanup paths (X and Y)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#framework-shutdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Framework shutdown
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -361,7 +452,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/fast-healthchecks/probe-options/" class="md-nav__link">
+      <a href="../probe-options/" class="md-nav__link">
         
   
   
@@ -388,7 +479,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/fast-healthchecks/run-probe/" class="md-nav__link">
+      <a href="../run-probe/" class="md-nav__link">
         
   
   
@@ -415,7 +506,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/fast-healthchecks/configuration/" class="md-nav__link">
+      <a href="../configuration/" class="md-nav__link">
         
   
   
@@ -442,7 +533,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/fast-healthchecks/ssrf/" class="md-nav__link">
+      <a href="../ssrf/" class="md-nav__link">
         
   
   
@@ -469,7 +560,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/fast-healthchecks/dsn-formats/" class="md-nav__link">
+      <a href="../dsn-formats/" class="md-nav__link">
         
   
   
@@ -496,7 +587,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/fast-healthchecks/api/" class="md-nav__link">
+      <a href="../api/" class="md-nav__link">
         
   
   
@@ -523,7 +614,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/fast-healthchecks/changelog/" class="md-nav__link">
+      <a href="../changelog/" class="md-nav__link">
         
   
   
@@ -550,7 +641,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/fast-healthchecks/style-guide/" class="md-nav__link">
+      <a href="../style-guide/" class="md-nav__link">
         
   
   
@@ -577,7 +668,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/fast-healthchecks/contributing/" class="md-nav__link">
+      <a href="../contributing/" class="md-nav__link">
         
   
   
@@ -604,7 +695,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/fast-healthchecks/security.md" class="md-nav__link">
+      <a href="../security.md" class="md-nav__link">
         
   
   
@@ -678,7 +769,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/fast-healthchecks/decisions/" class="md-nav__link">
+      <a href="../decisions/" class="md-nav__link">
         
   
   
@@ -706,7 +797,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/fast-healthchecks/decisions/001-check-contract/" class="md-nav__link">
+      <a href="../decisions/001-check-contract/" class="md-nav__link">
         
   
   
@@ -751,6 +842,49 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#open-client-mechanics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Open client mechanics
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cleanup-paths-x-and-y" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cleanup paths (X and Y)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#framework-shutdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Framework shutdown
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -763,8 +897,60 @@
               
               <article class="md-content__inner md-typeset">
                 
-  <h1>404 - Not found</h1>
+                  
 
+
+  
+    <a href="https://github.com/shepilov-vladislav/fast-healthchecks/edit/main/docs/lifecycle.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/shepilov-vladislav/fast-healthchecks/raw/main/docs/lifecycle.md" title="View source of this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<h1 id="lifecycle-and-shutdown">Lifecycle and shutdown<a class="headerlink" href="#lifecycle-and-shutdown" title="Permanent link">&para;</a></h1>
+<h2 id="open-client-mechanics">Open client mechanics<a class="headerlink" href="#open-client-mechanics" title="Permanent link">&para;</a></h2>
+<p>Checks that cache a client (Redis, Mongo, Kafka, OpenSearch, URL, RabbitMQ, PostgreSQL) keep one connection per instance. Such checks implement <code>aclose()</code> and are said to hold an <strong>open client</strong>. Open clients are <strong>not</strong> closed inside <code>run_probe</code>; they are closed only by the <strong>documented shutdown path</strong> below.</p>
+<ul>
+<li><strong>Which checks have open clients:</strong> Any check that has an <code>aclose</code> method (e.g. those using <code>ClientCachingMixin</code>). Function-based checks and checks without <code>aclose</code> do not hold open clients.</li>
+<li><strong>Which shutdown path closes them:</strong> Only <code>healthcheck_shutdown(probes)</code> or <code>close_probes(probes)</code> (path <strong>Y</strong>). On cancellation or timeout of <code>run_probe</code>, cached clients are <strong>not</strong> closed; the caller is responsible for calling the shutdown path (path <strong>X</strong>) so that <strong>Y</strong> runs.</li>
+</ul>
+<h2 id="cleanup-paths-x-and-y">Cleanup paths (X and Y)<a class="headerlink" href="#cleanup-paths-x-and-y" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>X (when cleanup runs):</strong> The caller invokes <code>healthcheck_shutdown(probes)</code> (or <code>close_probes(probes)</code>) after using the probes—typically in the framework’s lifespan/shutdown hook. On cancellation or timeout of <code>run_probe</code>, <code>run_probe</code> does <strong>not</strong> close cached clients; the caller should still call the shutdown path so that resources are closed.</li>
+<li><strong>Y (what closes open clients):</strong> <code>close_probes(probes)</code> (and thus <code>healthcheck_shutdown(probes)</code>) calls <code>aclose()</code> on each check that has it. Cached clients are closed only by this path, not inside <code>run_probe</code>.</li>
+</ul>
+<p>After cancel or timeout there are no dangling background tasks from <code>run_probe</code> (the probe’s check tasks are cancelled); a cached client may remain open until the caller invokes <strong>Y</strong>.</p>
+<h2 id="framework-shutdown">Framework shutdown<a class="headerlink" href="#framework-shutdown" title="Permanent link">&para;</a></h2>
+<p>To close health check resources on app shutdown:</p>
+<ul>
+<li><strong>FastAPI:</strong> Store the router and call <code>await router.close()</code> in your <a href="https://fastapi.tiangolo.com/advanced/events/">lifespan</a> context manager (after <code>yield</code>), or use <code>healthcheck_shutdown(probes)</code> and call the returned callback in lifespan.</li>
+<li><strong>FastStream:</strong> Pass the callback from <code>healthcheck_shutdown(probes)</code> into your app's <code>on_shutdown</code> list, e.g. <code>AsgiFastStream(..., on_shutdown=[healthcheck_shutdown(probes)])</code>.</li>
+<li><strong>Litestar:</strong> Pass the callback from <code>healthcheck_shutdown(probes)</code> into the app's <code>on_shutdown</code> list, e.g. <code>Litestar(..., on_shutdown=[healthcheck_shutdown(probes)])</code>.</li>
+</ul>
+<p>Import <code>healthcheck_shutdown</code> from <code>fast_healthchecks.integrations.fastapi</code>, <code>fast_healthchecks.integrations.faststream</code>, or <code>fast_healthchecks.integrations.litestar</code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
               </article>
             </div>
           
@@ -807,10 +993,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "/fast-healthchecks/", "features": ["search.suggest", "search.highlight", "content.tabs.link", "content.code.copy", "content.action.edit", "content.action.view"], "search": "/fast-healthchecks/assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["search.suggest", "search.highlight", "content.tabs.link", "content.code.copy", "content.action.edit", "content.action.view"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="/fast-healthchecks/assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   </body>

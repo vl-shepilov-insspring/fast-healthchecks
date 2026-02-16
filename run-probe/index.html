@@ -12,13 +12,13 @@
         <meta name="author" content="Vladislav Shepilov">
       
       
-        <link rel="canonical" href="https://shepilov-vladislav.github.io/fast-healthchecks/changelog/">
+        <link rel="canonical" href="https://shepilov-vladislav.github.io/fast-healthchecks/run-probe/">
       
       
-        <link rel="prev" href="../api/">
+        <link rel="prev" href="../probe-options/">
       
       
-        <link rel="next" href="../style-guide/">
+        <link rel="next" href="../configuration/">
       
       
         
@@ -29,7 +29,7 @@
     
     
       
-        <title>Changelog - Fast Healthchecks</title>
+        <title>Running probes without ASGI - Fast Healthchecks</title>
       
     
     
@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#changelog" class="md-skip">
+        <a href="#running-probes-without-asgi" class="md-skip">
           Skip to content
         </a>
       
@@ -117,7 +117,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Changelog
+              Running probes without ASGI
             
           </span>
         </div>
@@ -396,10 +396,37 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../run-probe/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Running probes without ASGI
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -415,6 +442,59 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#hooks-for-metrics-and-tracing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hooks for metrics and tracing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#timeout-semantics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Timeout semantics
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#probe-logging-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Probe logging (optional)
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -531,19 +611,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../changelog/" class="md-nav__link">
         
   
   
@@ -559,7 +630,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -775,6 +845,47 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#hooks-for-metrics-and-tracing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hooks for metrics and tracing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#timeout-semantics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Timeout semantics
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#probe-logging-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Probe logging (optional)
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -790,7 +901,7 @@
 
 
   
-    <a href="https://github.com/shepilov-vladislav/fast-healthchecks/edit/main/docs/changelog.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/shepilov-vladislav/fast-healthchecks/edit/main/docs/run-probe.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -799,89 +910,68 @@
     
       
     
-    <a href="https://github.com/shepilov-vladislav/fast-healthchecks/raw/main/docs/changelog.md" title="View source of this page" class="md-content__button md-icon">
+    <a href="https://github.com/shepilov-vladislav/fast-healthchecks/raw/main/docs/run-probe.md" title="View source of this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
     </a>
   
 
 
-<h1 id="changelog">Changelog<a class="headerlink" href="#changelog" title="Permanent link">&para;</a></h1>
-<h1 id="changelog_1">Changelog<a class="headerlink" href="#changelog_1" title="Permanent link">&para;</a></h1>
-<p>Versioning follows <a href="https://semver.org/">Semantic Versioning</a>. Breaking changes and the deprecation process are documented in CONTRIBUTING (§ Backward compatibility and deprecation).</p>
-<h2 id="025-2026-02-16">0.2.5 (2026-02-16)<a class="headerlink" href="#025-2026-02-16" title="Permanent link">&para;</a></h2>
-<h3 id="fix">Fix<a class="headerlink" href="#fix" title="Permanent link">&para;</a></h3>
+<h1 id="running-probes-without-asgi">Running probes without ASGI<a class="headerlink" href="#running-probes-without-asgi" title="Permanent link">&para;</a></h1>
+<p>For CLI scripts, cron jobs, or tests, use <code>run_probe</code> instead of mounting ASGI routes:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fast_healthchecks.integrations.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">Probe</span><span class="p">,</span> <span class="n">run_probe</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fast_healthchecks.checks.function</span><span class="w"> </span><span class="kn">import</span> <span class="n">FunctionHealthCheck</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">probe</span> <span class="o">=</span> <span class="n">Probe</span><span class="p">(</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;readiness&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>        <span class="n">checks</span><span class="o">=</span><span class="p">[</span><span class="n">FunctionHealthCheck</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Ping&quot;</span><span class="p">)],</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="p">)</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">report</span> <span class="o">=</span> <span class="k">await</span> <span class="n">run_probe</span><span class="p">(</span><span class="n">probe</span><span class="p">)</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">report</span><span class="o">.</span><span class="n">healthy</span><span class="p">,</span> <span class="n">report</span><span class="o">.</span><span class="n">results</span><span class="p">)</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</code></pre></div>
+<p>Optional parameters: <code>timeout</code> (seconds), <code>on_check_start</code>, <code>on_check_end</code> (callbacks).</p>
+<h2 id="hooks-for-metrics-and-tracing">Hooks for metrics and tracing<a class="headerlink" href="#hooks-for-metrics-and-tracing" title="Permanent link">&para;</a></h2>
+<p><code>on_check_start</code> and <code>on_check_end</code> are optional async callbacks that run before and after each check. Use them to record metrics (e.g. duration, success/failure) or to create tracing spans.</p>
 <ul>
-<li><strong>checks</strong>: fixed <code>__slots__</code> in <code>RabbitMQHealthCheck</code>, renamed <code>check_pydantinc_installed</code> -&gt; <code>check_pydantic_installed</code>, <code>from_dsn</code> for <code>MongoHealthCheck</code> and <code>parse_dsn</code> for <code>BasePostgreSQLHealthCheck</code> more stable</li>
+<li><strong>on_check_start(probe_name, check_name, check_index)</strong> — called once per check before it runs. You can start a span or timer here and store it (e.g. in a context var or dict keyed by check_index).</li>
+<li><strong>on_check_end(probe_name, check_name, check_index, result)</strong> — called after the check completes with the <code>HealthCheckResult</code>. Use <code>result.healthy</code> and optionally <code>result.error_details</code> for metrics or span status.</li>
 </ul>
-<h2 id="024-2025-09-19">0.2.4 (2025-09-19)<a class="headerlink" href="#024-2025-09-19" title="Permanent link">&para;</a></h2>
-<h3 id="fix_1">Fix<a class="headerlink" href="#fix_1" title="Permanent link">&para;</a></h3>
+<p>Example: record check duration with a simple metrics callback (store start times by check index):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fast_healthchecks.integrations.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">run_probe</span><span class="p">,</span> <span class="n">Probe</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">starts</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">on_start</span><span class="p">(</span><span class="n">probe_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">check_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">check_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    <span class="n">starts</span><span class="p">[</span><span class="n">check_index</span><span class="p">]</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">monotonic</span><span class="p">()</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">on_end</span><span class="p">(</span><span class="n">probe_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">check_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">check_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>    <span class="n">duration</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">monotonic</span><span class="p">()</span> <span class="o">-</span> <span class="n">starts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">check_index</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">monotonic</span><span class="p">())</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>    <span class="c1"># e.g. metrics.histogram(&quot;healthcheck_duration_seconds&quot;, duration, tags=[check_name])</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">check_name</span><span class="si">}</span><span class="s2"> took </span><span class="si">{</span><span class="n">duration</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">s, healthy=</span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">healthy</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="n">report</span> <span class="o">=</span> <span class="k">await</span> <span class="n">run_probe</span><span class="p">(</span><span class="n">probe</span><span class="p">,</span> <span class="n">on_check_start</span><span class="o">=</span><span class="n">on_start</span><span class="p">,</span> <span class="n">on_check_end</span><span class="o">=</span><span class="n">on_end</span><span class="p">)</span>
+</code></pre></div>
+<p>For OpenTelemetry or other backends, create a span in <code>on_check_start</code> and end it in <code>on_check_end</code> with the result status.</p>
+<h2 id="timeout-semantics">Timeout semantics<a class="headerlink" href="#timeout-semantics" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>typing</strong>: prevent typing from failing</li>
+<li><strong>Probe-level timeout:</strong> The only timeout in the public contract is the probe-level <code>timeout</code> argument to <code>run_probe</code>. There is no per-check timeout; when the probe timeout is exceeded, <strong>all</strong> pending checks are cancelled (asyncio cancels the gather).</li>
+<li><strong>One-check-hung vs others-done:</strong> If one check hangs and the others complete, the probe still waits until the probe-level timeout; then either an error is raised or a report with failures is returned (see modes below). No "partial cancel" of only the hung check—cancel applies to the whole probe run.</li>
+<li><strong>Two modes only:</strong></li>
+<li><strong>Mode A</strong> (<code>on_timeout_return_failure=False</code>): On timeout, <code>run_probe</code> raises <code>asyncio.TimeoutError</code> and does <strong>not</strong> return a report.</li>
+<li><strong>Mode B</strong> (<code>on_timeout_return_failure=True</code>): On timeout, <code>run_probe</code> returns a <code>HealthCheckReport</code> with failed results for all checks (timed-out checks have <code>error_details</code> e.g. <code>"Probe timed out"</code>); <code>report.healthy</code> obeys <code>probe.allow_partial_failure</code>.</li>
+<li><strong>Where Mode B is used:</strong> <code>ProbeAsgi</code> (and thus ASGI health routes) calls <code>run_probe(..., on_timeout_return_failure=True)</code> so that timeouts yield an HTTP response instead of raising.</li>
 </ul>
-<h2 id="023-2025-09-19">0.2.3 (2025-09-19)<a class="headerlink" href="#023-2025-09-19" title="Permanent link">&para;</a></h2>
-<h3 id="fix_2">Fix<a class="headerlink" href="#fix_2" title="Permanent link">&para;</a></h3>
+<h2 id="probe-logging-optional">Probe logging (optional)<a class="headerlink" href="#probe-logging-optional" title="Permanent link">&para;</a></h2>
+<p>Structured logging for probe and check execution is <strong>optional</strong> and <strong>disabled by default</strong>. No external logging framework is required.</p>
 <ul>
-<li><strong>all</strong>: upgrade dependencies, make tests more stable, switch <code>mypy</code> to <code>ty</code></li>
-</ul>
-<h2 id="022-2025-04-16">0.2.2 (2025-04-16)<a class="headerlink" href="#022-2025-04-16" title="Permanent link">&para;</a></h2>
-<h3 id="fix_3">Fix<a class="headerlink" href="#fix_3" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>all</strong>: make PEP 561 compatible</li>
-</ul>
-<h2 id="021-2025-03-07">0.2.1 (2025-03-07)<a class="headerlink" href="#021-2025-03-07" title="Permanent link">&para;</a></h2>
-<h3 id="fix_4">Fix<a class="headerlink" href="#fix_4" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>mongo</strong>: added multihost support for MongoDB</li>
-</ul>
-<h2 id="020-2025-02-20">0.2.0 (2025-02-20)<a class="headerlink" href="#020-2025-02-20" title="Permanent link">&para;</a></h2>
-<h3 id="feat">Feat<a class="headerlink" href="#feat" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>healthchecks</strong>: added OpenSearch healthcheck</li>
-</ul>
-<h3 id="fix_5">Fix<a class="headerlink" href="#fix_5" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>dependencies</strong>: upgrade github actions</li>
-<li><strong>vscode</strong>: fixed ruff plugin setup</li>
-<li><strong>dependencies</strong>: upgrade dependencies</li>
-<li><strong>dependencies</strong>: upgrade pre-commit</li>
-<li><strong>docs</strong>: typo in install commands</li>
-</ul>
-<h3 id="refactor">Refactor<a class="headerlink" href="#refactor" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>tests</strong>: move <code>to_dict</code> method out of tests</li>
-</ul>
-<h2 id="015-2025-01-23">0.1.5 (2025-01-23)<a class="headerlink" href="#015-2025-01-23" title="Permanent link">&para;</a></h2>
-<h3 id="fix_6">Fix<a class="headerlink" href="#fix_6" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>redis</strong>: added support for SSL connections</li>
-</ul>
-<h2 id="014-2025-01-22">0.1.4 (2025-01-22)<a class="headerlink" href="#014-2025-01-22" title="Permanent link">&para;</a></h2>
-<h3 id="fix_7">Fix<a class="headerlink" href="#fix_7" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>dependencies</strong>: upgrade dependencies and pre-commit</li>
-<li><strong>mongo</strong>: fixed Mongo check</li>
-</ul>
-<h2 id="013-2024-12-10">0.1.3 (2024-12-10)<a class="headerlink" href="#013-2024-12-10" title="Permanent link">&para;</a></h2>
-<h3 id="fix_8">Fix<a class="headerlink" href="#fix_8" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>validate_dsn</strong>: removed dummy validation isinstance</li>
-</ul>
-<h2 id="012-2024-12-10">0.1.2 (2024-12-10)<a class="headerlink" href="#012-2024-12-10" title="Permanent link">&para;</a></h2>
-<h3 id="fix_9">Fix<a class="headerlink" href="#fix_9" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>setuptools</strong>: included packages</li>
-<li><strong>docs</strong>: changed logo for documentation to green color</li>
-</ul>
-<h2 id="011-2024-12-09">0.1.1 (2024-12-09)<a class="headerlink" href="#011-2024-12-09" title="Permanent link">&para;</a></h2>
-<h3 id="fix_10">Fix<a class="headerlink" href="#fix_10" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>docs</strong>: fixed <code>README.md</code></li>
-</ul>
-<h2 id="010-2024-12-09">0.1.0 (2024-12-09)<a class="headerlink" href="#010-2024-12-09" title="Permanent link">&para;</a></h2>
-<h3 id="feat_1">Feat<a class="headerlink" href="#feat_1" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>all</strong>: 🚀 INIT</li>
+<li><strong>Abstraction:</strong> Use <code>get_probe_logger()</code> / <code>set_probe_logger()</code> and <code>get_stdlib_probe_logger()</code> from <code>fast_healthchecks.logging</code>. The logger receives <code>log(level, msg, **extra)</code>; when using the stdlib adapter, <code>extra</code> is redacted (same keys as <code>utils.redact_secrets_in_dict</code>) so secrets never appear in log output.</li>
+<li><strong>Events:</strong> When enabled, <code>run_probe</code> logs <code>probe_start</code> (probe name, checks count), and after completion <code>probe_end</code> (probe name, healthy, results summary). Per-check <code>check_start</code> / <code>check_end</code> (check name, index, healthy) are logged at DEBUG.</li>
+<li><strong>Enable:</strong> Call <code>set_probe_logger(get_stdlib_probe_logger())</code> before running probes. Use <code>NullLogger()</code> or <code>set_probe_logger(NullLogger())</code> to disable (default).</li>
 </ul>
 
 

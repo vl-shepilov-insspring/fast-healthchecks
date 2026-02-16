@@ -12,13 +12,13 @@
         <meta name="author" content="Vladislav Shepilov">
       
       
-        <link rel="canonical" href="https://shepilov-vladislav.github.io/fast-healthchecks/changelog/">
+        <link rel="canonical" href="https://shepilov-vladislav.github.io/fast-healthchecks/contributing/">
       
       
-        <link rel="prev" href="../api/">
+        <link rel="prev" href="../style-guide/">
       
       
-        <link rel="next" href="../style-guide/">
+        <link rel="next" href="../decisions/">
       
       
         
@@ -29,7 +29,7 @@
     
     
       
-        <title>Changelog - Fast Healthchecks</title>
+        <title>Contributing - Fast Healthchecks</title>
       
     
     
@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#changelog" class="md-skip">
+        <a href="#contributing" class="md-skip">
           Skip to content
         </a>
       
@@ -117,7 +117,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Changelog
+              Contributing
             
           </span>
         </div>
@@ -531,19 +531,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../changelog/" class="md-nav__link">
         
   
   
@@ -559,7 +550,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -595,10 +585,19 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../contributing/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -614,6 +613,7 @@
   
 
       </a>
+      
     </li>
   
 
@@ -790,7 +790,7 @@
 
 
   
-    <a href="https://github.com/shepilov-vladislav/fast-healthchecks/edit/main/docs/changelog.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/shepilov-vladislav/fast-healthchecks/edit/main/docs/contributing.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -799,90 +799,187 @@
     
       
     
-    <a href="https://github.com/shepilov-vladislav/fast-healthchecks/raw/main/docs/changelog.md" title="View source of this page" class="md-content__button md-icon">
+    <a href="https://github.com/shepilov-vladislav/fast-healthchecks/raw/main/docs/contributing.md" title="View source of this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
     </a>
   
 
 
-<h1 id="changelog">Changelog<a class="headerlink" href="#changelog" title="Permanent link">&para;</a></h1>
-<h1 id="changelog_1">Changelog<a class="headerlink" href="#changelog_1" title="Permanent link">&para;</a></h1>
-<p>Versioning follows <a href="https://semver.org/">Semantic Versioning</a>. Breaking changes and the deprecation process are documented in CONTRIBUTING (§ Backward compatibility and deprecation).</p>
-<h2 id="025-2026-02-16">0.2.5 (2026-02-16)<a class="headerlink" href="#025-2026-02-16" title="Permanent link">&para;</a></h2>
-<h3 id="fix">Fix<a class="headerlink" href="#fix" title="Permanent link">&para;</a></h3>
+<h1 id="contributing">Contributing<a class="headerlink" href="#contributing" title="Permanent link">&para;</a></h1>
+<h1 id="contributing_1">Contributing<a class="headerlink" href="#contributing_1" title="Permanent link">&para;</a></h1>
+<h2 id="project-name">Project name<a class="headerlink" href="#project-name" title="Permanent link">&para;</a></h2>
+<p>The canonical project name for documentation and UI is <strong>Fast Healthchecks</strong> (two words, with "s"). The PyPI package name is <code>fast-healthchecks</code>. Use this name consistently in these files (and any other project-facing text):</p>
 <ul>
-<li><strong>checks</strong>: fixed <code>__slots__</code> in <code>RabbitMQHealthCheck</code>, renamed <code>check_pydantinc_installed</code> -&gt; <code>check_pydantic_installed</code>, <code>from_dsn</code> for <code>MongoHealthCheck</code> and <code>parse_dsn</code> for <code>BasePostgreSQLHealthCheck</code> more stable</li>
+<li>README.md — main heading and project title</li>
+<li>docs/index.md — main heading and project title</li>
+<li>pyproject.toml — <code>description</code></li>
+<li>mkdocs.yml — <code>site_name</code></li>
 </ul>
-<h2 id="024-2025-09-19">0.2.4 (2025-09-19)<a class="headerlink" href="#024-2025-09-19" title="Permanent link">&para;</a></h2>
-<h3 id="fix_1">Fix<a class="headerlink" href="#fix_1" title="Permanent link">&para;</a></h3>
+<h2 id="documentation-single-source-of-truth">Documentation (single source of truth)<a class="headerlink" href="#documentation-single-source-of-truth" title="Permanent link">&para;</a></h2>
+<p>Each piece of documentation has one canonical source. When editing, change only the canonical source; other files may contain a short pointer or link.</p>
+<table>
+<thead>
+<tr>
+<th>Content</th>
+<th>Canonical source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Contributing guide</td>
+<td>This file (CONTRIBUTING.md). docs/contributing.md includes it via MkDocs.</td>
+</tr>
+<tr>
+<td>Changelog</td>
+<td>CHANGELOG.md. docs/changelog.md includes it.</td>
+</tr>
+<tr>
+<td>Package version</td>
+<td>pyproject.toml <code>version</code>. commitizen syncs to <code>fast_healthchecks/__init__.py</code> <code>__version__</code>.</td>
+</tr>
+<tr>
+<td>Installation (pip/poetry/uv, extras)</td>
+<td>docs/installation.md. README has a short line and link to the documentation.</td>
+</tr>
+<tr>
+<td>Example code in docs</td>
+<td>Files in <code>examples/</code>. Included in docs/usage.md via <code>include-markdown</code>. Code in <code>examples/</code> is part of the codebase and must follow PEP 8 and the project style (Ruff, pre-commit).</td>
+</tr>
+<tr>
+<td>User-facing docs (configuration, lifecycle, probe options, DSN, run_probe, SSRF, PostgreSQL TLS rotation)</td>
+<td>docs/ (docs/index.md and related MkDocs pages). In case of conflict, docs are authoritative. README is the entry point with a short overview and links to the documentation.</td>
+</tr>
+<tr>
+<td>Public API boundary (configs, to_dict)</td>
+<td><strong>docs/api.md</strong> is the single source of truth for the public API. README may have a one-line pointer to API Reference.</td>
+</tr>
+<tr>
+<td>Style guide (naming, docstrings, standards)</td>
+<td>This file. docs/style-guide.md is a pointer to the relevant sections.</td>
+</tr>
+<tr>
+<td>Security policy</td>
+<td>SECURITY.md (repo root). docs/security.md includes it for the documentation site.</td>
+</tr>
+<tr>
+<td>Test certificates policy</td>
+<td>This file, § Test certificates. README may have a one-line pointer.</td>
+</tr>
+<tr>
+<td>Running tests (local)</td>
+<td>README § Running tests. CONTRIBUTING § CI and release references it.</td>
+</tr>
+<tr>
+<td>Task runner recipes (full list and descriptions)</td>
+<td>justfile (and <code>just</code> or <code>just --list</code>). README lists only the main recipes with short pointers.</td>
+</tr>
+<tr>
+<td>Doc structure (pages and order)</td>
+<td><code>nav</code> in mkdocs.yml. When adding or removing a page, update both <code>nav</code> and the link list in docs/index.md so they stay in sync.</td>
+</tr>
+</tbody>
+</table>
+<p>When adding or changing user-facing content, update the canonical source (docs or other as above); in README, add or keep only a short pointer or link if needed.</p>
+<p>Wrapper pages in <code>docs/</code> (e.g. <code>docs/security.md</code>, <code>docs/changelog.md</code>, <code>docs/contributing.md</code>) that only include a file from the repo root must not duplicate the H1 heading from the included file; the H1 is defined once in the canonical source.</p>
+<h2 id="naming-conventions">Naming conventions<a class="headerlink" href="#naming-conventions" title="Permanent link">&para;</a></h2>
+<h3 id="documentation-files-docs">Documentation files (docs/)<a class="headerlink" href="#documentation-files-docs" title="Permanent link">&para;</a></h3>
+<p>Use lowercase; multi-word filenames use a hyphen (e.g. <code>probe-options.md</code>, <code>dsn-formats.md</code>, <code>style-guide.md</code>). The repo root keeps <code>SECURITY.md</code> (uppercase) for GitHub convention; the documentation site uses <code>docs/security.md</code>, which includes it. The doc filename should match the key used in <code>nav</code> in mkdocs.yml (e.g. <code>Changelog: changelog.md</code>).</p>
+<h3 id="files-and-modules">Files and modules<a class="headerlink" href="#files-and-modules" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>typing</strong>: prevent typing from failing</li>
+<li><strong>Packages and modules:</strong> Use <code>snake_case</code> (e.g. <code>fast_healthchecks</code>, <code>dsn_parsing</code>). See PEP 8.</li>
+<li><strong>Private modules:</strong> Use a leading underscore for internal implementation modules (e.g. <code>_base</code>, <code>_imports</code>). These are not part of the stable public import surface. Config types are available from <code>fast_healthchecks.checks.configs</code>.</li>
+<li><strong>Tests:</strong> Test files are named <code>test_*.py</code>. The pre-commit hook <code>name-tests-test</code> enforces this. Exceptions (utility or helper modules that are not tests) are listed in <code>.pre-commit-config.yaml</code> under that hook: <code>tests/utils.py</code> (shared test utilities), <code>tests/unit/integrations/helpers.py</code> (unit-test helpers), <code>tests/integration/checks/httpbin_like_app.py</code> (helper ASGI app for integration tests, not a test case).</li>
+<li><strong>Integrations:</strong> FastStream and Litestar integrations intentionally duplicate the structure (health, _add_probe_route); shared logic lives in <code>integrations.base</code>.</li>
 </ul>
-<h2 id="023-2025-09-19">0.2.3 (2025-09-19)<a class="headerlink" href="#023-2025-09-19" title="Permanent link">&para;</a></h2>
-<h3 id="fix_2">Fix<a class="headerlink" href="#fix_2" title="Permanent link">&para;</a></h3>
+<h3 id="workflows">Workflows<a class="headerlink" href="#workflows" title="Permanent link">&para;</a></h3>
+<p>Files in <code>.github/workflows/</code> use a numeric prefix for order. In the GitHub Actions UI, each workflow has a display name (<code>name:</code> in the file). Reference:</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Display name</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>1_test.yml</code></td>
+<td>Tests</td>
+<td>Pre-commit, import tests, unit tests, integration tests.</td>
+</tr>
+<tr>
+<td><code>2_bump.yml</code></td>
+<td>Bump version</td>
+<td>Manual version bump and tag (commitizen).</td>
+</tr>
+<tr>
+<td><code>2_rollback.yml</code></td>
+<td>Rollback release</td>
+<td>Delete GitHub release and tag, force-push branch to commit before tag.</td>
+</tr>
+<tr>
+<td><code>3_release.yml</code></td>
+<td>Release</td>
+<td>Build and publish to PyPI (Trusted Publishing).</td>
+</tr>
+<tr>
+<td><code>4_codeql.yml</code></td>
+<td>CodeQL</td>
+<td>Code security analysis.</td>
+</tr>
+<tr>
+<td><code>5_dependency_review.yml</code></td>
+<td>Dependency review</td>
+<td>Dependency review on pull requests.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="identifiers">Identifiers<a class="headerlink" href="#identifiers" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>all</strong>: upgrade dependencies, make tests more stable, switch <code>mypy</code> to <code>ty</code></li>
+<li><strong>Classes:</strong> <code>PascalCase</code> (e.g. <code>HealthCheckResult</code>, <code>RedisHealthCheck</code>, <code>ProbeRouteOptions</code>).</li>
+<li><strong>Functions and methods:</strong> <code>snake_case</code> (e.g. <code>healthcheck_safe</code>, <code>build_probe_route_options</code>, <code>run_probe</code>).</li>
+<li><strong>Module-level constants:</strong> <code>UPPER_SNAKE_CASE</code> (e.g. <code>DEFAULT_HC_TIMEOUT</code>, <code>VALID_SECURITY_PROTOCOLS</code>, <code>REDACT_PLACEHOLDER</code>).</li>
+<li><strong>Private attributes and helpers:</strong> Leading underscore (e.g. <code>_name</code>, <code>_config</code>, <code>_create_client</code>, <code>_get_check_name</code>). Exported names like <code>_CLIENT_CACHING_SLOTS</code> in <code>__all__</code> are intentional when subclasses need them (e.g. for <code>__slots__</code>).</li>
+<li><strong>TypeVars:</strong> Single capital or suffix per PEP 484 (e.g. <code>T_co</code>, <code>ClientT</code>, <code>P</code>); use a leading underscore for module-internal TypeVars (e.g. <code>_T</code>). In TypedDict, camelCase for fields is acceptable when it matches an external API or driver (e.g. <code>authSource</code> for MongoDB).</li>
+<li><strong>Term in code:</strong> Use the single word <strong>healthcheck</strong> in identifiers (e.g. <code>HealthcheckRouter</code>, <code>healthcheck_safe</code>). In prose (README, docs, docstrings) use "health check" or "health checks" (two words). When adding new public modules, add them to <code>docs/api.md</code>. When changing the public contract (new stable imports, deprecation, or removal), update the description in <code>docs/api.md</code> and the API note in README if present, so the public API boundary stays documented.</li>
 </ul>
-<h2 id="022-2025-04-16">0.2.2 (2025-04-16)<a class="headerlink" href="#022-2025-04-16" title="Permanent link">&para;</a></h2>
-<h3 id="fix_3">Fix<a class="headerlink" href="#fix_3" title="Permanent link">&para;</a></h3>
+<h2 id="docstrings">Docstrings<a class="headerlink" href="#docstrings" title="Permanent link">&para;</a></h2>
+<p>Docstrings follow the <strong>Google</strong> convention. This is enforced by Ruff (<code>tool.ruff.lint.pydocstyle</code> in <code>pyproject.toml</code>). See <a href="https://google.github.io/styleguide/pyguide.html#38-comments-and-docstrings">Google Python Style Guide — Docstrings</a>.</p>
+<p><strong>Module docstrings:</strong> Use a single summary line (imperative or neutral, e.g. "Provide …", "Define …", or "Health check for X"). Add one or two lines of detail if needed. Optional sections such as Classes, Usage, or Example are acceptable for public modules that expose one main class; they are not required. New code and docstring refactors should follow this minimal template.</p>
+<h2 id="standards">Standards<a class="headerlink" href="#standards" title="Permanent link">&para;</a></h2>
+<p>The project follows:</p>
 <ul>
-<li><strong>all</strong>: make PEP 561 compatible</li>
+<li><strong>PEP 8</strong> — code style (enforced by Ruff).</li>
+<li><strong>PEP 257</strong> — docstrings; <strong>Google</strong> convention for format (set in Ruff).</li>
+<li><strong>Semantic Versioning</strong> — versioning (commitizen, semver in <code>pyproject.toml</code>).</li>
+<li><strong>Conventional Commits</strong> — commit message format (commitizen check in pre-commit).</li>
+<li><strong>ADR</strong> — architecture decisions in <code>docs/decisions/</code> with numbering and status. When adding a new ADR: create <code>docs/decisions/NNN-short-title.md</code> (e.g. <code>002-some-topic.md</code>), include sections Status, Context, and Decision; update the table in <a href="../decisions/">docs/decisions/README.md</a> with the new row (number, title, status, short summary).</li>
 </ul>
-<h2 id="021-2025-03-07">0.2.1 (2025-03-07)<a class="headerlink" href="#021-2025-03-07" title="Permanent link">&para;</a></h2>
-<h3 id="fix_4">Fix<a class="headerlink" href="#fix_4" title="Permanent link">&para;</a></h3>
+<h2 id="backward-compatibility-and-deprecation">Backward compatibility and deprecation<a class="headerlink" href="#backward-compatibility-and-deprecation" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>mongo</strong>: added multihost support for MongoDB</li>
+<li><strong>SemVer:</strong> We follow <a href="https://semver.org/">Semantic Versioning</a>. Version is MAJOR.MINOR.PATCH. Breaking changes require a MAJOR bump; new backward-compatible features use MINOR; backward-compatible fixes use PATCH. Breaking changes are recorded in CHANGELOG (under Refactor or a dedicated Breaking section) and trigger a MAJOR version bump. CHANGELOG and commitizen are aligned with this: each release entry is categorized (Feat, Fix, Refactor, etc.), and breaking changes are called out explicitly.</li>
+<li><strong>Stable surface:</strong> What we guarantee across MINOR and PATCH releases are the symbols in <code>fast_healthchecks.__all__</code> and <code>fast_healthchecks.checks.__all__</code>, the documented public API in <a href="../api/">docs/api.md</a>, and the behavior described there. The <strong>supported public surface</strong> (import paths and stability across minor versions) is that API reference and those <code>__all__</code> lists; see <a href="../api/">docs/api.md</a> for the full list. Subpackage import paths (e.g. <code>from fast_healthchecks.checks.redis import RedisHealthCheck</code>) that are documented or implied by the API reference are also stable unless deprecated.</li>
+<li><strong>Internal:</strong> Modules or names not listed in the API reference or <code>__all__</code> (e.g. <code>_base</code>, <code>ToDictMixin.to_dict</code> on check instances) are internal. We may change or remove them without a MAJOR bump; avoid relying on them in production code.</li>
+<li><strong>Deprecation:</strong> When we deprecate a public API, we (1) document the deprecation in CHANGELOG and in the relevant docstring or <a href="../api/">docs/api.md</a>, (2) emit a <code>DeprecationWarning</code> at runtime where feasible (e.g. when the deprecated function or class is used), and (3) keep the deprecated API for at least one MINOR release before removal. Removal is done in a MAJOR release. The minimum timeline (one MINOR before removal) and this policy are documented here (CONTRIBUTING).</li>
 </ul>
-<h2 id="020-2025-02-20">0.2.0 (2025-02-20)<a class="headerlink" href="#020-2025-02-20" title="Permanent link">&para;</a></h2>
-<h3 id="feat">Feat<a class="headerlink" href="#feat" title="Permanent link">&para;</a></h3>
+<h2 id="ci-and-release">CI and release<a class="headerlink" href="#ci-and-release" title="Permanent link">&para;</a></h2>
+<p>Full description of release and CI (workflows, secrets, bump, rollback, pre-commit) is only in this section. README has a short pointer and link here.</p>
+<p><strong>Security:</strong> Vulnerability reports are handled privately; see <a href="../SECURITY.md">SECURITY.md</a>. Do not open public issues for security-sensitive bugs.</p>
+<p>For running tests locally (<code>just tests-imports</code>, <code>just tests-unit</code>, <code>just tests-integration</code>, <code>just tests-all</code>), see README § Running tests.</p>
+<h3 id="github-actions-secrets">GitHub Actions secrets<a class="headerlink" href="#github-actions-secrets" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>healthchecks</strong>: added OpenSearch healthcheck</li>
+<li><strong>Bump workflow (manual version bump):</strong> Uses <code>PERSONAL_ACCESS_TOKEN</code> for checkout and commitizen-action (push version bump and tag). Use a Fine-grained PAT or GitHub App with minimal scope: repository <strong>Contents</strong> (read and write). No PyPI token is used for this workflow.</li>
+<li><strong>PyPI publish:</strong> Release is done via <a href="https://docs.pypi.org/trusted-publishers/">Trusted Publishing</a> (OIDC). The workflow uses <code>id-token: write</code> and <code>pypa/gh-action-pypi-publish</code>; no PyPI API token is stored in GitHub Secrets. Do not add a PyPI token to the <code>pypi</code> environment.</li>
 </ul>
-<h3 id="fix_5">Fix<a class="headerlink" href="#fix_5" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>dependencies</strong>: upgrade github actions</li>
-<li><strong>vscode</strong>: fixed ruff plugin setup</li>
-<li><strong>dependencies</strong>: upgrade dependencies</li>
-<li><strong>dependencies</strong>: upgrade pre-commit</li>
-<li><strong>docs</strong>: typo in install commands</li>
-</ul>
-<h3 id="refactor">Refactor<a class="headerlink" href="#refactor" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>tests</strong>: move <code>to_dict</code> method out of tests</li>
-</ul>
-<h2 id="015-2025-01-23">0.1.5 (2025-01-23)<a class="headerlink" href="#015-2025-01-23" title="Permanent link">&para;</a></h2>
-<h3 id="fix_6">Fix<a class="headerlink" href="#fix_6" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>redis</strong>: added support for SSL connections</li>
-</ul>
-<h2 id="014-2025-01-22">0.1.4 (2025-01-22)<a class="headerlink" href="#014-2025-01-22" title="Permanent link">&para;</a></h2>
-<h3 id="fix_7">Fix<a class="headerlink" href="#fix_7" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>dependencies</strong>: upgrade dependencies and pre-commit</li>
-<li><strong>mongo</strong>: fixed Mongo check</li>
-</ul>
-<h2 id="013-2024-12-10">0.1.3 (2024-12-10)<a class="headerlink" href="#013-2024-12-10" title="Permanent link">&para;</a></h2>
-<h3 id="fix_8">Fix<a class="headerlink" href="#fix_8" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>validate_dsn</strong>: removed dummy validation isinstance</li>
-</ul>
-<h2 id="012-2024-12-10">0.1.2 (2024-12-10)<a class="headerlink" href="#012-2024-12-10" title="Permanent link">&para;</a></h2>
-<h3 id="fix_9">Fix<a class="headerlink" href="#fix_9" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>setuptools</strong>: included packages</li>
-<li><strong>docs</strong>: changed logo for documentation to green color</li>
-</ul>
-<h2 id="011-2024-12-09">0.1.1 (2024-12-09)<a class="headerlink" href="#011-2024-12-09" title="Permanent link">&para;</a></h2>
-<h3 id="fix_10">Fix<a class="headerlink" href="#fix_10" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>docs</strong>: fixed <code>README.md</code></li>
-</ul>
-<h2 id="010-2024-12-09">0.1.0 (2024-12-09)<a class="headerlink" href="#010-2024-12-09" title="Permanent link">&para;</a></h2>
-<h3 id="feat_1">Feat<a class="headerlink" href="#feat_1" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>all</strong>: 🚀 INIT</li>
-</ul>
+<h3 id="test-certificates">Test certificates<a class="headerlink" href="#test-certificates" title="Permanent link">&para;</a></h3>
+<p>Files under <code>tests/certs/</code> (e.g. <code>key.key</code>, <code>ca.key</code>) are used only to run tests (unit and integration, e.g. TLS checks). They are excluded from the pre-commit hook <code>detect-private-key</code> by design. Do not use them outside local or CI test runs. In production, use your own certificates and secrets.</p>
+<h3 id="reproducible-build">Reproducible build<a class="headerlink" href="#reproducible-build" title="Permanent link">&para;</a></h3>
+<p>On release (tag), the workflow runs a <strong>reproducible-build</strong> job: two builds in the same runner with the same Python version (3.14), same lockfile (<code>uv sync --frozen</code>), and <code>SOURCE_DATE_EPOCH=0</code>. Wheel hashes are compared; the job fails if they differ. <strong>Scope:</strong> reproducibility is defined within this fixed environment (same runner image, same Python patch version, same toolchain). We do not claim cross-version or cross-runner reproducibility.</p>
+<h3 id="pre-commit">Pre-commit<a class="headerlink" href="#pre-commit" title="Permanent link">&para;</a></h3>
+<p>Pre-commit runs the same checks as CI. The hook <code>no-commit-to-branch</code> is skipped on CI via <code>SKIP</code>. Pre-commit is executed with <code>uv run --no-sync pre-commit run ...</code>; <code>pre-commit-uv</code> is in the dev dependency group and locked in <code>uv.lock</code>.</p>
+<p>When updating uv, update the uv-pre-commit revision in <code>.pre-commit-config.yaml</code> to match: use the <a href="https://github.com/astral-sh/uv-pre-commit/releases">uv-pre-commit releases</a> and set <code>rev</code> to the commit SHA that corresponds to the uv version (keep the <code># frozen: &lt;version&gt;</code> comment for readability).</p>
+<p>Periodically update hook revisions in <code>.pre-commit-config.yaml</code> (e.g. run <code>pre-commit autoupdate</code>), then run pre-commit and the test suite to verify.</p>
 
 
 
