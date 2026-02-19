@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../img/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.2">
     
     
       
@@ -911,7 +911,7 @@
 <tr>
 <td><code>2_bump.yml</code></td>
 <td>Bump version</td>
-<td>Manual version bump and tag (commitizen).</td>
+<td>Manual version bump and tag (commitizen). Optional input: <code>increment</code> (PATCH/MINOR/MAJOR). Release notes come from CHANGELOG.md; see below.</td>
 </tr>
 <tr>
 <td><code>2_rollback.yml</code></td>
@@ -967,9 +967,16 @@
 <p>Full description of release and CI (workflows, secrets, bump, rollback, pre-commit) is only in this section. README has a short pointer and link here.</p>
 <p><strong>Security:</strong> Vulnerability reports are handled privately; see <a href="../SECURITY.md">SECURITY.md</a>. Do not open public issues for security-sensitive bugs.</p>
 <p>For running tests locally (<code>just tests-imports</code>, <code>just tests-unit</code>, <code>just tests-integration</code>, <code>just tests-all</code>), see README § Running tests.</p>
+<h3 id="bump-workflow-how-it-works">Bump workflow (how it works)<a class="headerlink" href="#bump-workflow-how-it-works" title="Permanent link">&para;</a></h3>
+<p>The Bump workflow (<code>2_bump.yml</code>) produces <strong>one commit</strong> per run. It uses commitizen to compute the next version (or the optional <code>increment</code> input: PATCH/MINOR/MAJOR).</p>
+<ul>
+<li><strong>If CHANGELOG.md has a <code>## Unreleased</code> section:</strong> The workflow replaces only that section’s header with <code>## X.Y.Z (YYYY-MM-DD)</code> (body unchanged), runs commitizen to update version files only (no changelog generation), then commits CHANGELOG + version files in a single commit, creates the tag, and pushes. So the release notes are exactly what you wrote under <code>## Unreleased</code>.</li>
+<li><strong>If there is no <code>## Unreleased</code> section:</strong> Commitizen runs with changelog generation enabled and commits the bump and generated changelog itself.</li>
+</ul>
+<p>In both cases the GitHub Release body is the first version block from CHANGELOG.md after the bump. The project uses <code>update_changelog_on_bump = false</code> in <code>pyproject.toml</code>; the workflow enables changelog generation only when there is no custom Unreleased section.</p>
 <h3 id="github-actions-secrets">GitHub Actions secrets<a class="headerlink" href="#github-actions-secrets" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>Bump workflow (manual version bump):</strong> Uses <code>PERSONAL_ACCESS_TOKEN</code> for checkout and commitizen-action (push version bump and tag). Use a Fine-grained PAT or GitHub App with minimal scope: repository <strong>Contents</strong> (read and write). No PyPI token is used for this workflow.</li>
+<li><strong>Bump workflow (manual version bump):</strong> Uses <code>PERSONAL_ACCESS_TOKEN</code> for checkout and commitizen-action (push version bump and tag). Use a Fine-grained PAT or GitHub App with minimal scope: repository <strong>Contents</strong> (read and write). No PyPI token is used for this workflow. Release notes for the GitHub Release are taken from the first version block in CHANGELOG.md after the bump (see § Bump workflow (how it works)).</li>
 <li><strong>PyPI publish:</strong> Release is done via <a href="https://docs.pypi.org/trusted-publishers/">Trusted Publishing</a> (OIDC). The workflow uses <code>id-token: write</code> and <code>pypa/gh-action-pypi-publish</code>; no PyPI API token is stored in GitHub Secrets. Do not add a PyPI token to the <code>pypi</code> environment.</li>
 </ul>
 <h3 id="test-certificates">Test certificates<a class="headerlink" href="#test-certificates" title="Permanent link">&para;</a></h3>
